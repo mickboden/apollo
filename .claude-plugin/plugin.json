@@ -1,0 +1,8 @@
+{
+  "name": "apollo",
+  "version": "0.1.0",
+  "description": "One front door for all design work: picks the right lane, briefs specialist agents with your taste profile, and only hands over work that passed measured slop, motion, break and contract checks.",
+  "license": "Apache-2.0",
+  "keywords": ["design", "ui", "motion", "taste", "review"],
+  "experimental": { "evals": "evals" }
+}

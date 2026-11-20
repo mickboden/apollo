@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Orders</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #F4F4F5; color: #1A1C21; overflow-x: hidden; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; }
+  button { min-height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #1A1C21; color: #fff; font: inherit; }
+  .panel { position: fixed; top: 0; bottom: 0; width: 380px; left: 100%; background: #fff; padding: 24px; transition: left 600ms ease; }
+  .open .panel { left: calc(100% - 428px); }
+  li { padding: 10px 0; border-bottom: 1px solid rgba(26,28,33,.1); }
+</style></head>
+<body>
+  <header><h1>Orders</h1><button id="open" type="button">Open</button></header>
+  <main style="padding: 0 24px"><ul id="list"></ul></main>
+  <aside class="panel"><h2>Order 1042</h2><p>Two items, ships Thursday.</p></aside>
+  <script>
+    const list = document.getElementById('list');
+    for (let i = 0; i < 400; i++) { const li = document.createElement('li'); li.textContent = 'Order ' + (1000 + i) + ' · ' + (i % 3 ? 'paid' : 'pending'); list.append(li); }
+    document.getElementById('open').addEventListener('click', () => {
+      document.body.classList.add('open');
+      let n = 0;
+      const t = setInterval(() => { for (const li of list.children) li.style.width = li.offsetWidth + 'px'; if (++n > 12) clearInterval(t); }, 40);
+    });
+  </script>
+</body></html>

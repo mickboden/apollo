@@ -1,0 +1,1 @@
+- 2026-11-01 · exits faster than entrances — fixture

@@ -1,0 +1,12 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root { color-scheme: light dark; --ground:#F4F4F5; --ink:#1A1C21; }
+  @media (prefers-color-scheme: dark) { :root { --ground:#131517; --ink:#ECEDEE; } }
+  body { margin:0; background:var(--ground); color:var(--ink); font:15px/1.5 system-ui, sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 32px; letter-spacing: -0.02em; margin: 0 0 16px; }
+  p { margin: 0 0 12px; overflow-wrap: anywhere; }
+  button { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #2F5BEA; color: #fff; font: inherit; }
+</style></head>
+<body><main><h1>Good morning</h1><p>Three meetings today and one review due at four.</p><button type="button">Open calendar</button></main>
+<script>document.title = String(matchMedia('(prefers-color-scheme: dark)').matches)</script></body></html>

@@ -1,0 +1,7 @@
+{
+  "name": "apollo",
+  "owner": { "name": "Apollo contributors" },
+  "plugins": [
+    { "name": "apollo", "source": "./", "description": "All-in-one design director with taste profiles and measured quality gates." }
+  ]
+}

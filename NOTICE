@@ -1,0 +1,8 @@
+Apollo
+Copyright 2026 Apollo contributors
+
+This product includes software and documentation derived from Impeccable
+(https://github.com/pbakaus/impeccable), version 4.7.0, licensed under the
+Apache License, Version 2.0. Copyright Paul Bakaus and Impeccable contributors.
+The derived files live in skills/screens/ and were modified; the changes are
+listed in skills/screens/CHANGES.md.

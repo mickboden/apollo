@@ -1,0 +1,437 @@
+[
+  {
+    "id": "beige-ground",
+    "title": "Beige or warm-paper ground",
+    "why": "Warm beige grounds are the most common AI-template tell and read as generic, not crafted.",
+    "detect": "both",
+    "severity": "fail",
+    "matcher": {
+      "kind": "colour-hsl",
+      "props": [
+        "background",
+        "background-color"
+      ],
+      "hue": [
+        20,
+        60
+      ],
+      "sat": [
+        8,
+        50
+      ],
+      "light": [
+        82,
+        97
+      ]
+    },
+    "alsoMatchers": [
+      {
+        "kind": "tailwind-colour",
+        "hue": [
+          20,
+          60
+        ],
+        "sat": [
+          8,
+          50
+        ],
+        "light": [
+          82,
+          97
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gradient-text",
+    "title": "Gradient text",
+    "why": "Gradient-filled headlines are decoration; emphasis comes from size or weight.",
+    "detect": "both",
+    "severity": "fail",
+    "matcher": {
+      "kind": "regex",
+      "pattern": "background-clip\\s*:\\s*text",
+      "scope": "any"
+    },
+    "alsoMatchers": [
+      {
+        "kind": "regex",
+        "pattern": "\\bbg-clip-text\\b",
+        "scope": "any"
+      }
+    ]
+  },
+  {
+    "id": "side-stripe",
+    "title": "Coloured side stripe",
+    "why": "A thick coloured border-left on cards or callouts is an unexplained decoration.",
+    "detect": "both",
+    "severity": "fail",
+    "matcher": {
+      "kind": "border-side",
+      "minWidth": 2
+    }
+  },
+  {
+    "id": "overshoot-easing",
+    "title": "Overshoot or bounce easing",
+    "why": "Bounce reads as cheap in working UI; the calm curve wins every time.",
+    "detect": "both",
+    "severity": "fail",
+    "dials": {
+      "motion": [
+        "still",
+        "calm",
+        "expressive"
+      ]
+    },
+    "matcher": {
+      "kind": "easing-overshoot"
+    }
+  },
+  {
+    "id": "blur-motion",
+    "title": "Blur in motion",
+    "why": "Blur and smear on transitions feel hectic and confusing, not premium.",
+    "detect": "both",
+    "severity": "fail",
+    "dials": {
+      "motion": [
+        "still",
+        "calm"
+      ]
+    },
+    "matcher": {
+      "kind": "motion-prop",
+      "pattern": "(^|[^-\\w])(backdrop-filter|filter)\\s*:\\s*[^;]*blur|backdrop-filter",
+      "transitionPattern": "\\b(backdrop-filter|filter)\\b"
+    },
+    "alsoMatchers": [
+      {
+        "kind": "class-tokens",
+        "all": [
+          "transition(?:-all)?",
+          "(?:backdrop-)?blur(?:-[a-z0-9]+)?"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "slide-swap",
+    "title": "Sliding content swap",
+    "why": "Content that slides in during view changes shifts the picture; use a fade or a cut.",
+    "detect": "both",
+    "severity": "warn",
+    "dials": {
+      "motion": [
+        "still",
+        "calm"
+      ]
+    },
+    "matcher": {
+      "kind": "keyframes-translate",
+      "maxPx": 8
+    }
+  },
+  {
+    "id": "transition-all",
+    "title": "transition: all",
+    "why": "Animates properties nobody chose, including layout; name the properties.",
+    "detect": "lint",
+    "severity": "warn",
+    "matcher": {
+      "kind": "regex",
+      "pattern": "transition\\s*:\\s*all\\b",
+      "scope": "css"
+    }
+  },
+  {
+    "id": "pulse-glow",
+    "title": "Pulsing, glowing or shimmering decoration",
+    "why": "Glowing and running dots look like AI slop and pull attention for nothing.",
+    "detect": "both",
+    "severity": "fail",
+    "matcher": {
+      "kind": "keyframes-name",
+      "pattern": "pulse|glow|ping|shimmer|breath"
+    },
+    "alsoMatchers": [
+      {
+        "kind": "regex",
+        "pattern": "\\banimate-(?:pulse|ping)\\b",
+        "scope": "any"
+      }
+    ]
+  },
+  {
+    "id": "pure-black-ink",
+    "title": "Pure black text",
+    "why": "Pure black on light grounds is harsh; use a near-black ink.",
+    "detect": "lint",
+    "severity": "warn",
+    "matcher": {
+      "kind": "regex",
+      "pattern": "(?<![-\\w])color\\s*:\\s*(#000(000)?\\b|black\\b|rgb\\(\\s*0\\s*,\\s*0\\s*,\\s*0\\s*\\))",
+      "flags": "i",
+      "scope": "css"
+    }
+  },
+  {
+    "id": "hard-offset-shadow",
+    "title": "Hard offset shadow",
+    "why": "Zero-blur block shadows are a costume unless the whole world is neobrutalist.",
+    "detect": "both",
+    "severity": "fail",
+    "matcher": {
+      "kind": "shadow-offset"
+    }
+  },
+  {
+    "id": "eyebrow-label",
+    "title": "Eyebrow or kicker label",
+    "why": "A small label above every heading is template filler; the heading carries itself.",
+    "detect": "both",
+    "severity": "fail",
+    "matcher": {
+      "kind": "regex",
+      "pattern": "class(Name)?\\s*=\\s*[\"'{][^\"'}]*\\b(eyebrow|kicker|overline)\\b|\\.(eyebrow|kicker|overline)\\b",
+      "scope": "any"
+    },
+    "alsoMatchers": [
+      {
+        "kind": "class-tokens",
+        "all": [
+          "uppercase",
+          "tracking-(?:wide|wider|widest|\\[[^\\]]+\\])",
+          "text-(?:xs|\\[1[0-2]px\\])"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "filler-copy",
+    "title": "Filler marketing words",
+    "why": "Words like 'seamless' and 'elevate' say nothing and mark text as AI-written.",
+    "detect": "both",
+    "severity": "fail",
+    "matcher": {
+      "kind": "words",
+      "scope": "markup",
+      "words": [
+        "seamless",
+        "seamlessly",
+        "elevate",
+        "unlock",
+        "empower",
+        "effortless",
+        "effortlessly",
+        "supercharge",
+        "revolutionize",
+        "revolutionise",
+        "cutting-edge",
+        "game-changer",
+        "next-level",
+        "delve",
+        "unleash"
+      ]
+    }
+  },
+  {
+    "id": "placeholder-data",
+    "title": "Placeholder data",
+    "why": "Fake names and lorem ipsum make a design look unfinished; use real content.",
+    "detect": "both",
+    "severity": "fail",
+    "matcher": {
+      "kind": "regex",
+      "pattern": "lorem ipsum|\\bjohn doe\\b|\\bjane doe\\b|\\bexample\\.com\\b|\\bacme\\b",
+      "flags": "i",
+      "scope": "any"
+    }
+  },
+  {
+    "id": "emoji-icon",
+    "title": "Emoji as icon",
+    "why": "Emoji standing in for an icon system look improvised; use one drawn icon set.",
+    "detect": "both",
+    "severity": "warn",
+    "matcher": {
+      "kind": "emoji-in-element"
+    }
+  },
+  {
+    "id": "card-wash",
+    "title": "Tinted card washes",
+    "why": "Colour-washed cards were rejected every time; colour belongs on small meaningful marks.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "vibe-layer",
+    "title": "Global vibe layer",
+    "why": "Gradients, tints, strips and glows applied everywhere replace character with decoration.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "accent-overload",
+    "title": "More accents than meanings",
+    "why": "Each colour must encode something; extra accents make the page loud and unclear.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "dark-page-default",
+    "title": "Very dark full pages by default",
+    "why": "Dark full pages feel drastic unless dark is the deliberate stage of the piece.",
+    "detect": "critic",
+    "severity": "warn"
+  },
+  {
+    "id": "serif-italic-display",
+    "title": "Half-italic serif headline as default voice",
+    "why": "The beige-plus-italic-serif header is the signature of template output.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "display-everywhere",
+    "title": "Display type everywhere",
+    "why": "Big type works once, as the single hero move; repeated, it becomes decoration.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "giant-uppercase",
+    "title": "Giant uppercase headings",
+    "why": "Shouting headings flatten hierarchy and feel dated.",
+    "detect": "critic",
+    "severity": "warn"
+  },
+  {
+    "id": "orbit-diagram",
+    "title": "Orbit or solar-system diagram",
+    "why": "Circles orbiting a logo explain nothing; show the real system.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "sparkles",
+    "title": "Sparkles and stars",
+    "why": "Sparkle icons signal 'AI' instead of showing value.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "colour-strips",
+    "title": "Decorative colour strips",
+    "why": "Thin colour strips on cards are decoration without meaning.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "cursor-ring",
+    "title": "Custom cursor rings",
+    "why": "Cursor followers add motion nobody asked for.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "decorative-tilt",
+    "title": "3D tilt as decoration",
+    "why": "Tilt-on-hover moves the picture without telling anything.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "shadow-everywhere",
+    "title": "Shadows on every card",
+    "why": "Flat by default; depth is reserved for the one interactive hero object.",
+    "detect": "critic",
+    "severity": "warn"
+  },
+  {
+    "id": "rotated-badge",
+    "title": "Rotated badges and tags",
+    "why": "Tilted stickers read as costume; keep elements upright and flat.",
+    "detect": "critic",
+    "severity": "warn"
+  },
+  {
+    "id": "default-selectors",
+    "title": "Default-looking selectors, chips and badges",
+    "why": "Stock option pickers and badges look 'done fast'; give them the product's own form.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "same-size-card-grid",
+    "title": "Same-size icon + heading + text card grid",
+    "why": "The lazy page structure; it says nothing about what matters most.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "hero-metric-template",
+    "title": "Hero-metric template",
+    "why": "Big number, small label, three supporting stats is a template, not a decision.",
+    "detect": "critic",
+    "severity": "warn"
+  },
+  {
+    "id": "process-meta",
+    "title": "Process talk in audience copy",
+    "why": "Rounds, labs, scores and 'we tested' belong to the team, not the audience.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "inflated-claims",
+    "title": "Inflated or untrue claims",
+    "why": "Claims that aren't true or can't be shown break trust instantly.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "assistant-phrasing",
+    "title": "Generic assistant phrasing",
+    "why": "Stock AI sentences make copy sound machine-made; write like a person.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "filler-subtitle",
+    "title": "Filler subtitles",
+    "why": "A subtitle that repeats the title in more words adds noise.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "icon-standin",
+    "title": "Icons standing in for the real thing",
+    "why": "Show the real product, screenshot or photo instead of a symbol for it.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "half-real-imagery",
+    "title": "Half-real imagery",
+    "why": "Realism must be fully convincing or clearly stylised; the middle looks cheap.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "close-copy",
+    "title": "Close copy of one reference",
+    "why": "Copies of one admired site read as cheap; recombine several in the product's own material.",
+    "detect": "critic",
+    "severity": "fail"
+  },
+  {
+    "id": "pasted-treatment",
+    "title": "Liked treatment pasted everywhere",
+    "why": "Repetition kills what made the liked page special; each layout gets its own idea.",
+    "detect": "critic",
+    "severity": "fail"
+  }
+]

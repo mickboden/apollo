@@ -1,0 +1,12 @@
+{
+  "title": "Home directions",
+  "kind": "concepts",
+  "cards": [
+    { "id": "a", "title": "Greeting and four calm modules", "src": "concept-a/index.html", "why": "One big fact, details one click away" },
+    { "id": "b", "title": "Tall cards led by one sentence each", "src": "img/ref-1.png", "why": "Product colour carries which area you are in" },
+    { "id": "c", "title": "Week line", "src": "img/ref-2.png", "why": "Time as the organising idea" },
+    { "id": "d", "title": "A reference site", "src": "https://www.wikipedia.org", "why": "Quiet navigation, strong type" },
+    { "id": "e", "title": "Statement cuts opening with a much longer title that needs to wrap onto a second line without breaking", "src": "img/ref-1.png", "why": "A story told in three short sentences, the last word grey" },
+    { "id": "f", "title": "Wild card", "src": "concept-a/index.html" }
+  ]
+}

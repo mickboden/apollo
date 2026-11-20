@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Board</title>
+  <link rel="stylesheet" href="/page.css">
+</head>
+<body>
+  <header class="top">
+    <div class="top-row">
+      <h1 id="title">Board</h1>
+      <p class="progress" id="progress" aria-live="polite"></p>
+    </div>
+    <p class="hint" id="hint">Mark each card ♥ or ✕, then rate it 1–5. Keys: 1–5, L, X, arrows.</p>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </header>
+  <main id="deck" class="deck"></main>
+  <template id="card">
+    <article class="card" tabindex="0">
+      <a class="preview" target="_blank" rel="noopener"></a>
+      <div class="body">
+        <h2 class="card-title"></h2>
+        <p class="why"></p>
+        <div class="controls">
+          <div class="toggles">
+            <button type="button" class="toggle love" aria-pressed="false" aria-label="Like">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+            </button>
+            <button type="button" class="toggle reject" aria-pressed="false" aria-label="Reject">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+          </div>
+          <div class="score" role="radiogroup" aria-label="Rating from 1 to 5"></div>
+        </div>
+        <input class="note" type="text" maxlength="500" placeholder="Why? One line" aria-label="Note">
+      </div>
+    </article>
+  </template>
+  <script src="/page.js" type="module"></script>
+</body>
+</html>

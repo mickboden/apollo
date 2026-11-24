@@ -33,6 +33,7 @@ const RECORDER = String.raw`(() => {
   };
   H.poll = setInterval(poll, 50); poll();
   H.stop = () => { H.running = false; clearInterval(H.poll); poll(); return { deltas: H.deltas.slice(2), anims: H.anims }; };
+  H.baseline = () => { poll(); H.deltas = []; H.anims = []; };
   return true;
 })()`;
 
@@ -146,11 +147,9 @@ export async function measureMotion(target, { trigger: tr, durationMs = 2000, di
     const page = await browser.newPage();
     await page.send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
     await page.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: reducedMotion ? 'reduce' : 'no-preference' }] });
-    dbg('goto');
-    await page.goto(url, { timeoutMs: navTimeoutMs });
-    dbg('recorder');
-    await page.eval(RECORDER);
-    const frames = []; let t0 = null;
+    // The recorder and the screencast start before navigation, so load-time openings are captured from the first frame.
+    await page.send('Page.addScriptToEvaluateOnNewDocument', { source: RECORDER });
+    let frames = []; let t0 = null;
     const off = page.onEvent('Page.screencastFrame', ({ data, metadata, sessionId }) => {
       page.send('Page.screencastFrameAck', { sessionId }).catch(() => {});
       const ts = metadata.timestamp * 1000; if (t0 === null) t0 = ts;
@@ -160,7 +159,13 @@ export async function measureMotion(target, { trigger: tr, durationMs = 2000, di
     });
     dbg('screencast');
     await page.send('Page.startScreencast', { format: 'jpeg', quality: 80, everyNthFrame: 1 });
-    await sleep(120);
+    dbg('goto');
+    await page.goto(url, { timeoutMs: navTimeoutMs });
+    if (tr && tr.type !== 'load') {
+      await sleep(300);
+      await page.eval('window.__heph.baseline()');
+      frames = []; t0 = null;
+    }
     dbg('trigger');
     await trigger(page, tr);
     dbg('wait');

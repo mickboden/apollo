@@ -65,3 +65,21 @@ test('missing Chrome → exit 2', () => {
   assert.equal(r.status, 2);
   assert.match(r.stderr, /Chrome not found/);
 });
+
+test('a load-time opening is captured from the very start', { skip, timeout: 60000 }, async () => {
+  const { createServer } = await import('node:http');
+  const html = readFileSync(join(FX, 'opening-onload.html'), 'utf8').replace('<script>const s=performance.now();while(performance.now()-s<400){}</script>', '<img src="/slow.png" alt="">');
+  const srv = createServer((req, res) => {
+    if (req.url === '/slow.png') { setTimeout(() => { res.writeHead(200, { 'content-type': 'image/png' }); res.end(); }, 900); return; }
+    res.writeHead(200, { 'content-type': 'text/html' }); res.end(html);
+  });
+  await new Promise((r) => srv.listen(0, '127.0.0.1', r));
+  try {
+    const r = await measureMotion(`http://127.0.0.1:${srv.address().port}/`, { trigger: { type: 'load' }, durationMs: 600, dial: 'calm', outDir: out() });
+    const a = r.animations.find((x) => x.name === 'arrive');
+    assert.ok(a, `opening not captured: ${JSON.stringify(r.animations)}`);
+    assert.equal(a.exemption, 'opening');
+    const frames = JSON.parse(readFileSync(r.flipbook, 'utf8').match(/const FRAMES = (\[.*?\]);/s)[1]);
+    assert.ok(frames.length >= 3, `only ${frames.length} frames`);
+  } finally { srv.close(); }
+});

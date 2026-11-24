@@ -10,6 +10,21 @@ The target, in the words of the person this taste comes from: *artsy, cool, non-
 
 Before showing anything, ask: *would this hold up next to the profile's top reference?* If the honest answer is no, it is not ready.
 
+## 0. The bold move
+
+Restraint is how you frame the work, not the goal. The most common way this taste fails is clean, safe, forgettable output: everything removed, nothing added. That reads as "awful" as surely as clutter does.
+
+1. **Every surface has one bold, ownable move.** Pick exactly one, make it unmistakable, and give it the room the calm frame creates:
+   - a hero line set very large, maybe two-tone, that says something specific;
+   - a real photograph or product shot at full bleed;
+   - one confident colour field that means something (whose space this is, what state it's in);
+   - a signature interaction or motion people will describe afterwards (a fill, a draw-on, a typed question that cuts to the page);
+   - an unexpected but honest layout idea from the product's own material.
+2. **The memory test.** Someone looks for five seconds and leaves. What would they describe an hour later? If the honest answer is "it was clean", the move is missing. Add it before showing anything.
+3. **A refine that only removes is a failed refine.** Cutting clutter is half the job; the other half is adding the move. "More vibey", "less generic" and "more premium" always need something *added*: character, a moment, a real image, a point of view.
+4. **Quiet frame, one loud moment.** Chrome, secondary text, borders and working-UI motion stay calm, so the one move has all the energy. Calm everywhere with no moment is not premium; it's unfinished.
+5. **Meet the brief's words.** If the person asked for vibey, catchy, exciting, premium, bolder or calmer, the result must visibly be that, judged by a fresh critic (the brief-fit gate in gates.md). "Cleaner but not yet vibey" is a fail, not a hand-over.
+
 ## 1. Density and hierarchy
 
 1. **Set an information budget.** One hero element plus 3–5 modules of 2–3 items each. Everything else goes behind a click or onto a detail page. *Why:* too much on screen was the single most common correction; overload turns people off before they read a word.
@@ -30,7 +45,7 @@ Before showing anything, ask: *would this hold up next to the profile's top refe
 ## 3. Character
 
 12. **Character comes from one small detail that means something.** A logo tile that fills with the team colour while the AI writes. A label that leans in by 2px. A dissolve in the document's own colour. One or two per surface. *Why:* this is what made work feel "vibey" and crafted. A global style layer never did.
-13. **The quietest option usually wins.** In every round of options, the calm one won: a dot over a wash, a rise over a splash, a fade over a slide. Include one bolder option, but make the quiet one excellent. *Why:* premium reads as calm.
+13. **Calm treatments, never a blank page.** When two treatments of the *same* move compete, the calmer one usually wins: a dot over a wash, a rise over a splash, a fade over a slide. That's about how a move is executed, not about having no move. *Why:* premium reads as calm; empty reads as unfinished.
 14. **Showcase pieces go further.** Personal sites, case studies and openings get creativity 4–5 from the first proposal. Bold, unexpected and still smooth. *Why:* showcase work was repeatedly called "too simple" and "low animations".
 
 ## 4. Imagery and depth

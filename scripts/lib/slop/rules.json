@@ -433,5 +433,12 @@
     "why": "Repetition kills what made the liked page special; each layout gets its own idea.",
     "detect": "critic",
     "severity": "fail"
+  },
+  {
+    "id": "no-signature-move",
+    "title": "No bold, ownable move",
+    "why": "Clean but forgettable: everything removed, nothing added. Without one memorable move the surface reads as unfinished, not premium.",
+    "detect": "critic",
+    "severity": "fail"
   }
 ]

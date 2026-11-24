@@ -313,3 +313,11 @@ Instead: Take one trait from each of several references and rebuild it in the pr
 Why: Repetition kills what made the liked page special; each layout gets its own idea.
 
 Instead: Name what made the liked page work, then give each new page its own idea in that spirit.
+
+### no-signature-move
+
+**No bold, ownable move** · fail · checked by critic
+
+Why: Clean but forgettable: everything removed, nothing added. Without one memorable move the surface reads as unfinished, not premium.
+
+Instead: Add exactly one move from base-taste.md §0 (a big specific line, a real photo, a meaningful colour field, a signature motion, an honest layout idea) and give it the room the calm frame creates. Apply the memory test.

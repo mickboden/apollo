@@ -17,6 +17,7 @@ Nothing reaches the person until it has passed the gates. Gates run on the **ren
    - `critic-motion`: runs the motion CLI itself and judges purpose and feel from the flipbooks.
    - `critic-break`: worst-case data plus accessibility.
    - `critic-contract`: ticks every line of `.design/contract.md`.
+   - **Brief-fit** (inside `critic-slop`): the Director passes the quality words from the request ("vibey", "less generic", "catchy", "premium", "calmer", "bolder", "more exciting", or the lane's goal line). The critic answers each with **met** or **not met**, plus the evidence and the missing move. Any **not met** is a failed gate, exactly like a slop finding. "Cleaner, but not yet vibey" means not met.
 6. **Privacy** (only before publishing anything public): `node <plugin>/scripts/cli.mjs privacy <folder>`
 
 ## Exit codes
@@ -32,6 +33,7 @@ Nothing reaches the person until it has passed the gates. Gates run on the **ren
 - Failures go back to the specialist who built the work, with the exact findings.
 - After a fix, re-run only the gates that failed, plus render (fixes often break layout).
 - **At most 3 loops.** After the third, stop and hand over with the remaining findings listed plainly at the top. Do not keep polishing silently.
+- **A brief-fit miss is never handed over as done.** If it is still "not met" after the loops, the hand-over opens with it ("You asked for vibey; the critic says it isn't yet, because…") and proposes the bolder move, instead of presenting the result as finished.
 
 ## Per lane
 

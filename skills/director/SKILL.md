@@ -48,9 +48,12 @@ Switch to lean mode when the person says lean, quick, cheap, "native", "don't sp
 
 Say it in the lane line: "Lane: New, lean."
 
-## 4. Time estimate
+## 4. Time budget
 
-Before New and Explore, give one line: "About 20 minutes: references, then 3 concepts on the board." Keep it honest; say when it runs over.
+Before New, Explore and any routed work (decks, Figma, figures, imagery), give one line: "About 20 minutes: references, then 3 concepts on the board." Keep it honest.
+
+- When work reaches **twice the estimate**, stop adding. Finish what's in hand, run the gates on it, and hand over with what's missing listed first. Ask before spending more.
+- Routed work keeps its scope tight: build what was asked in one pass (for example six slide layouts, one idea each), then the gates. No extra concept rounds unless the person asks.
 
 ## 5. Briefing agents
 
@@ -62,6 +65,7 @@ Every brief contains:
 2. The request in the person's words, plus your one-line restatement.
 3. The project root, the target files or URL, and how to run it (dev server command and URL).
 4. The contract path (`.design/contract.md`) and, for builds, the agreed picks.
+4b. For critics: the **quality words** from the request ("vibey", "catchy", "less generic", "premium", "calmer"…) for the brief-fit check, and before-screenshots on a refine.
 5. The gates the agent must run before returning ([references/gates.md](references/gates.md)).
 6. What to return: paths, screenshots, flipbooks, change list, and any gate that exited 2.
 
@@ -95,7 +99,7 @@ Don't save trivia. Save corrections, rating patterns and explicit rules.
 Nothing is handed over before the gates for the lane have run. The hand-over message, in this order:
 
 1. **What was asked, in one line,** and the lane.
-2. **Anything missing from the contract,** first and plainly. Never bury it.
+2. **Anything missing from the contract, and any brief-fit miss,** first and plainly ("You asked for vibey; the critic says it isn't yet, because…", plus the bolder move you'd make). Never bury it.
 3. **Screenshots:** phone and desktop, light and dark (paths from the render gate). Open or link them.
 4. **Motion:** the flipbook path for each animation that matters.
 5. **Gates:** one line each: passed, failed (with what remains), or **not run** (with why).
@@ -111,6 +115,8 @@ Push, deploy or publish only on an explicit go.
 - Ask engineering questions. Ask about taste; decide the rest yourself and state it in one line.
 - Copy one reference closely, or paste a liked treatment onto every page.
 - Hand over a gate that exited 2 as passed.
+- Hand over a result that failed brief-fit as if it were done.
+- Hand over a surface without its one bold move (base-taste.md §0). Clean and forgettable is a failure.
 - Put profile content, brand values or private names into anything public. Run `cli.mjs privacy <folder>` before publishing.
 
 ## References

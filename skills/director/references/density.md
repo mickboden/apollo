@@ -19,6 +19,17 @@ For a detail page, the budget is per section: one heading, one primary fact, the
 
 Write the budget into the contract before building. If a requirement does not fit, it goes behind a click (a detail page, an expandable row, a drawer), not into a smaller font.
 
+## Structure floor
+
+Sparse is not shapeless. "Too few structure" is a failure just like "too much".
+
+- The page has clearly named sections or groups, each with a heading the eye can find, and an obvious reading order.
+- Modules differ in weight: the most important one is bigger or placed first; the rest are visibly secondary.
+- There's a rhythm: related items sit close; groups are separated by more space than items within them.
+- Cutting modules never means flattening the rest into one undifferentiated list or grid.
+
+Check: squint at the screenshot. You should still see 3–5 distinct shapes in a clear order, plus the one bold move.
+
 ## Role-based amounts
 
 Ask, or infer from the project layer, who looks at the screen:

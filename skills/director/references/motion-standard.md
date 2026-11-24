@@ -15,6 +15,17 @@ Exemptions (any dial): mark an element with `data-motion="opening"` or `data-mot
 
 The motion CLI enforces exactly this table.
 
+## Openings
+
+**Openings default to `showcase` energy and creativity 4,** whatever the project's dial says for its working UI. An opening is a showcase moment: it's the one place the product gets to perform. A calm fade is not an opening.
+
+- Tell a tiny story in 2–4 beats: a question typed and sent, statements cut hard one after another, an identity colour filling the mark, a real object arriving where it belongs.
+- Use the product's own material (its composer, its logo, its data, its people) rather than abstract shapes.
+- One confident hero beat that is big, fast or surprising, then a clean hand-off to the page.
+- About 2–3s in total, once per session, skippable, `data-motion="opening"`.
+- **The memory test:** would someone remember it an hour later and describe it to a colleague? "It faded in nicely" fails. Rework until the answer is a specific image.
+- Smoothness still applies: measure it with `cli.mjs motion`.
+
 ## Numbers
 
 | What | Value |

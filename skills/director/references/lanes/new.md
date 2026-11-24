@@ -60,5 +60,5 @@ SKILL.md §8. Then learn: save what the person liked about the result, in their 
 
 ## Special surfaces
 
-- **Openings:** lead with a content or language moment (typing, statement cuts, an identity fill), ≤ ~3s, once per session, `data-motion="opening"`. Concepts for an opening are shown as flipbooks on the board.
+- **Openings:** run at creativity 4 and showcase energy by default (motion-standard.md, "Openings"). Lead with a content or language moment (typing, statement cuts, an identity fill) built from the product's own material: 2–4 beats, one confident hero beat, about 2–3s, once per session, `data-motion="opening"`. Show the concepts as flipbooks on the board. Before showing, each concept must pass the memory test ("what would someone describe an hour later?"); "catchy" is the bar, calm is not.
 - **Decks, Figma, figures, imagery:** same flow, but the specialist work routes per [upstream.md](../upstream.md), "Phase-2 routes".

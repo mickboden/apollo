@@ -10,7 +10,7 @@ An all-in-one design plugin for Claude Code. One user-facing skill (the Director
 | `skills/director/` | The entry skill and its references (base taste, slop list, motion standard, lanes…) |
 | `skills/screens/` | Screens core, a modified fork of Impeccable 4.7.0 (Apache-2.0) |
 | `agents/` | Specialist and critic agents |
-| `scripts/cli.mjs` | Zero-dependency Node CLI: context, profile, project, learn, lint, render, motion, privacy, board, migrate, locate, eval-deck |
+| `scripts/cli.mjs` | Zero-dependency Node CLI: doctor, context, profile, project, learn, lint, render, motion, privacy, board, migrate, locate, eval-deck |
 | `board/` | Local rating board (♥ / ✕ / 1–5 / note) |
 | `evals/` | Eval cases for `claude plugin eval` and blind-deck briefs |
 | `profiles/example/` | A fictional public sample profile |

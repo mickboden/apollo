@@ -54,6 +54,7 @@ Decks, Figma work, isometric figures and imagery currently route through upstrea
   - **macOS:** the standard `/Applications/Google Chrome.app` is found automatically.
   - **Linux:** `google-chrome`, `google-chrome-stable`, `chromium` or `chromium-browser` on your `PATH`.
   - **Anything else, or a custom install:** set `CHROME_PATH` to the browser binary.
+  - **Containers, CI and hardened Linux** (no user-namespace sandbox, or running as root): Apollo retries Chrome with `--no-sandbox` by itself. Set `APOLLO_CHROME_NO_SANDBOX=1` to always use it, or `=0` to never.
   - **Without Chrome**, the plugin still works, but the render and motion gates report **not run**.
 - **Optional:** the Mobbin and Figma MCP servers make reference research and Figma work richer.
 
@@ -80,6 +81,12 @@ claude plugin details apollo
 ```
 
 You should see 2 skills (`director`, `screens`) and 6 agents.
+
+To check the machine can run every gate (Node, Chrome, profiles folder, plugin root), with a fix for anything missing:
+
+```bash
+node <apollo>/scripts/cli.mjs doctor
+```
 
 ### From a local clone (to hack on it)
 
@@ -183,6 +190,7 @@ All checks are commands of the zero-dependency CLI. Exit codes: **0** clean, **1
 
 | Command | What it checks |
 |---|---|
+| `doctor` | Checks Node, that Chrome is found and launches (and whether it needed `--no-sandbox`), the profiles folder and the plugin root. Prints a fix for each problem; exits 1 on anything that blocks a gate. |
 | `lint <files or folders>` | A merged slop list in CSS, HTML, JSX/TSX, Vue, Svelte, Astro and CSS-in-JS, including Tailwind classes. Catches beige grounds, gradient text, glowing dots, eyebrow labels, filler copy, placeholder data, overshoot easing, blur in motion and more. |
 | `render <url or .html>` | Opens the page in real Chrome at 390, 768 and 1440 px wide, light and dark, plus 1440 at 200% zoom. Finds horizontal scroll, overflowing or overlapping text, and targets under 24px. Pages that return 4xx/5xx and unreachable targets are "not run". |
 | `motion <url> --click <sel>` | Measures frame timing and every animated property, duration and easing against your motion dial (`still`, `calm`, `expressive`, `showcase`). Also runs a reduced-motion pass and writes a flipbook you can play at real speed. |

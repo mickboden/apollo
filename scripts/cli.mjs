@@ -3,8 +3,10 @@
 // Exit codes: 0 clean · 1 findings (gate failed) · 2 could not run.
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { nodeProblem } from './lib/node-version.mjs';
 
 export const COMMANDS = {
+  doctor: 'Check Node, Chrome, profiles and plugin root, with a fix for each problem: doctor [--json] [--skip-chrome]',
   context: 'Print the merged design context (base → personal → brands → project)',
   profile: 'Create a profile: profile init personal | profile init brand <name>',
   project: 'Create the project layer: project init [--brand a,b] [--commit]',
@@ -24,7 +26,9 @@ function usage() {
   return ['Usage: cli.mjs <command> [args]', '', ...Object.entries(COMMANDS).map(([k, v]) => `  ${k.padEnd(w)}  ${v}`)].join('\n');
 }
 
-export async function main(argv) {
+export async function main(argv, { version = process.version } = {}) {
+  const tooOld = nodeProblem(version); // before any command loads: older Node fails later with confusing errors
+  if (tooOld) { console.error(tooOld); return 2; }
   const [cmd, ...args] = argv;
   if (!cmd || cmd === '--help' || cmd === '-h') { console.log(usage()); return cmd ? 0 : 2; }
   if (!Object.hasOwn(COMMANDS, cmd)) { console.error(`Unknown command: ${cmd}\n\n${usage()}`); return 2; }

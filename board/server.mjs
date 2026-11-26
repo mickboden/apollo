@@ -55,6 +55,7 @@ export function projectDirFor(deckPath) {
 export function startBoard(deckPath, { port = 0, host = '127.0.0.1', root = profilesRoot() } = {}) {
   const deckDir = realpathSync(resolve(dirname(deckPath)));
   const deckReal = realpathSync(resolve(deckPath)).toLowerCase();
+  const deckLexical = join(deckDir, basename(deckPath)).toLowerCase();
   let boundPort = port;
   const server = createServer(async (req, res) => {
     try {
@@ -68,6 +69,8 @@ export function startBoard(deckPath, { port = 0, host = '127.0.0.1', root = prof
         try { rel = decodeURIComponent(req.url.slice('/files/'.length).split('?')[0]); } catch { return send(res, 400, { error: 'bad path' }); }
         const p = resolve(deckDir, rel);
         if (!p.startsWith(deckDir + sep)) return send(res, 403, { error: 'forbidden' });
+        // Refuse private names by the requested name too, so case variants get 403 on case-sensitive and case-insensitive filesystems alike.
+        if (PRIVATE.has(basename(p).toLowerCase()) || p.toLowerCase() === deckLexical) return send(res, 403, { error: 'forbidden' });
         if (!existsSync(p)) return send(res, 404, { error: 'not found' });
         const real = realpathSync(p);
         if (!real.startsWith(deckDir + sep) || PRIVATE.has(basename(real).toLowerCase()) || real.toLowerCase() === deckReal) return send(res, 403, { error: 'forbidden' });

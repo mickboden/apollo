@@ -111,33 +111,103 @@ class Page {
   close() { return this.conn.send('Target.closeTarget', { targetId: this.targetId }); }
 }
 
-export async function launch({ headless = true, env = process.env, commandTimeoutMs = 30000 } = {}) {
-  const bin = findChrome(env);
-  if (!bin) throw new ChromeError('Chrome not found (set CHROME_PATH or install Google Chrome)');
-  const userDir = mkdtempSync(join(tmpdir(), 'apollo-chrome-'));
-  const args = [`--user-data-dir=${userDir}`, '--remote-debugging-port=0', '--no-first-run', '--no-default-browser-check', '--disable-extensions', '--hide-scrollbars', '--mute-audio', '--force-color-profile=srgb', ...(headless ? ['--headless=new'] : []), 'about:blank'];
-  const proc = spawn(bin, args, { stdio: 'ignore' });
+// --- Launch -------------------------------------------------------------------------------
+// Chrome on Linux needs a user-namespace sandbox that containers, CI runners and hardened
+// distros often lack; it then dies at once with "No usable sandbox". We retry once with
+// --no-sandbox there, and go straight to it as root (Chrome refuses root with a sandbox) or
+// in a container, and let APOLLO_CHROME_NO_SANDBOX=1 force it or =0 forbid it.
+
+const STDERR_KEEP = 4000;
+
+export function chromeArgs({ userDir, headless = true, noSandbox = false }) {
+  return [`--user-data-dir=${userDir}`, '--remote-debugging-port=0', '--no-first-run', '--no-default-browser-check', '--disable-extensions', '--hide-scrollbars', '--mute-audio', '--force-color-profile=srgb',
+    ...(noSandbox ? ['--no-sandbox', '--disable-dev-shm-usage'] : []), ...(headless ? ['--headless=new'] : []), 'about:blank'];
+}
+
+// Which sandbox modes to try, in order. Returns e.g. [false, true] = sandboxed, then no-sandbox.
+export const inContainer = () => existsSync('/.dockerenv') || existsSync('/run/.containerenv');
+
+export function sandboxPlan({ env = process.env, platform = process.platform, uid = process.getuid?.(), container = inContainer() } = {}) {
+  const opt = env.APOLLO_CHROME_NO_SANDBOX;
+  if (opt === '1' || opt === 'true') return [true];
+  if (opt === '0' || opt === 'false') return [false];
+  if (platform !== 'linux') return [false];
+  if (uid === 0 || container) return [true];
+  return [false, true];
+}
+
+// The last useful stderr lines, without crash-dump stack noise.
+export function stderrSummary(text) {
+  const lines = String(text || '').split('\n').map((l) => l.trim()).filter((l) => l && !/^#\d+ 0x|^Received signal|^\[end of stack trace\]|cpufreq|^Task trace:|^Crash keys:|^\s*"/.test(l));
+  const fatal = lines.filter((l) => /FATAL|ERROR|error|denied|sandbox/i.test(l));
+  return (fatal.length ? fatal : lines).slice(-3).join('\n').slice(0, 800);
+}
+
+function fixFor(stderr) {
+  if (/sandbox/i.test(stderr)) return 'Chrome has no usable sandbox here; set APOLLO_CHROME_NO_SANDBOX=1 (containers/CI) or enable unprivileged user namespaces';
+  if (/shared librar|cannot open shared object/i.test(stderr)) return 'Chrome is missing system libraries; install the distro\'s Chrome dependencies';
+  if (/display|ozone|X server/i.test(stderr)) return 'Chrome wants a display; make sure it runs headless (--headless=new is the default)';
+  return 'run `node scripts/cli.mjs doctor` for details';
+}
+
+// One launch attempt: spawn Chrome and wait for DevToolsActivePort. Resolves with the live process.
+async function startOnce({ bin, headless, noSandbox, spawn: spawnFn, startupMs, tmp }) {
+  const userDir = mkdtempSync(join(tmp, 'apollo-chrome-'));
+  const proc = spawnFn(bin, chromeArgs({ userDir, headless, noSandbox }), { stdio: ['ignore', 'ignore', 'pipe'] });
+  let stderr = '';
   let exited = false; let spawnError = null;
+  proc.stderr?.on('data', (d) => { stderr = (stderr + d).slice(-STDERR_KEEP); });
   proc.on('exit', () => { exited = true; });
   proc.on('error', (e) => { spawnError = e; exited = true; });
   const killOnExit = () => { try { proc.kill('SIGKILL'); } catch { /* gone */ } };
   process.once('exit', killOnExit);
-  const fail = (msg) => { process.removeListener('exit', killOnExit); try { proc.kill('SIGKILL'); } catch { /* gone */ } try { rmSync(userDir, { recursive: true, force: true }); } catch { /* temp */ } return new ChromeError(msg); };
+  const cleanup = () => { process.removeListener('exit', killOnExit); try { proc.kill('SIGKILL'); } catch { /* gone */ } try { rmSync(userDir, { recursive: true, force: true }); } catch { /* temp */ } };
   const portFile = join(userDir, 'DevToolsActivePort');
   const start = Date.now();
+  const failure = (reason, retryable) => { cleanup(); const e = new ChromeError(reason); e.retryable = retryable; e.stderr = stderrSummary(stderr); return e; };
   while (!existsSync(portFile) || !readFileSync(portFile, 'utf8').includes('\n')) {
-    if (spawnError) throw fail(`Chrome could not start: ${spawnError.message}`);
-    if (exited) throw fail('Chrome exited during startup');
-    if (Date.now() - start > 20000) throw fail('Chrome did not start within 20s');
+    if (spawnError) throw failure(`Chrome could not start: ${spawnError.message}`, false);
+    if (exited) { await sleep(20); throw failure('Chrome exited during startup', true); }
+    if (Date.now() - start > startupMs) throw failure(`Chrome did not start within ${Math.round(startupMs / 1000)}s`, true);
     await sleep(50);
   }
   const [port, path] = readFileSync(portFile, 'utf8').trim().split('\n');
+  return { proc, userDir, port, path, noSandbox, killOnExit, isExited: () => exited, stderrTail: () => stderrSummary(stderr) };
+}
+
+// Start Chrome, retrying without the sandbox when the plan allows. Exported for tests (inject spawn).
+export async function startChrome({ bin, headless = true, env = process.env, spawn: spawnFn = spawn, platform = process.platform, uid = process.getuid?.(), container, startupMs = 20000, tmp = tmpdir() } = {}) {
+  const plan = sandboxPlan({ env, platform, uid, ...(container === undefined ? {} : { container }) });
+  const errors = [];
+  for (const noSandbox of plan) {
+    try { return await startOnce({ bin, headless, noSandbox, spawn: spawnFn, startupMs, tmp }); }
+    catch (e) {
+      errors.push(e);
+      if (!e.retryable) break;
+    }
+  }
+  const last = errors.at(-1);
+  const tried = plan.length > 1 && errors.length > 1 ? ' (also tried --no-sandbox)' : '';
+  const detail = errors.map((e) => e.stderr).filter(Boolean).at(-1);
+  const err = new ChromeError(`${last.message}${tried}${detail ? `: ${detail}` : ''}. Fix: ${fixFor(errors.map((e) => e.stderr).join('\n'))}`);
+  err.stderr = detail || '';
+  throw err;
+}
+
+export async function launch({ headless = true, env = process.env, commandTimeoutMs = 30000, spawn: spawnFn = spawn } = {}) {
+  const bin = findChrome(env);
+  if (!bin) throw new ChromeError(env.CHROME_PATH ? `Chrome not found at CHROME_PATH=${env.CHROME_PATH} (fix the path or unset it)` : 'Chrome not found (set CHROME_PATH or install Google Chrome)');
+  const started = await startChrome({ bin, headless, env, spawn: spawnFn });
+  const { proc, userDir, port, path, killOnExit } = started;
+  const fail = (msg) => { process.removeListener('exit', killOnExit); try { proc.kill('SIGKILL'); } catch { /* gone */ } try { rmSync(userDir, { recursive: true, force: true }); } catch { /* temp */ } return new ChromeError(msg); };
   const ws = new WebSocket(`ws://127.0.0.1:${port}${path}`);
   await new Promise((res, rej) => { ws.addEventListener('open', res, { once: true }); ws.addEventListener('error', () => rej(fail('could not connect to Chrome')), { once: true }); });
   const conn = new Connection(ws, { commandTimeoutMs });
   proc.on('exit', () => conn.failAll('Chrome exited'));
   return {
     process: proc,
+    bin,
+    noSandbox: started.noSandbox,
     async newPage() {
       const { targetId } = await conn.send('Target.createTarget', { url: 'about:blank' });
       const { sessionId } = await conn.send('Target.attachToTarget', { targetId, flatten: true });
@@ -149,6 +219,7 @@ export async function launch({ headless = true, env = process.env, commandTimeou
       return page;
     },
     async close() {
+      const exited = started.isExited();
       if (!exited && !conn.closed) { try { await conn.send('Browser.close', {}, undefined, 3000); } catch { /* fall through to kill */ } }
       conn.failAll('browser closed');
       try { ws.close(); } catch { /* already closed */ }

@@ -21,7 +21,9 @@ const tmp = (p = 'apollo-rf-') => mkdtempSync(join(tmpdir(), p));
 const listen = (handler) => new Promise((res) => { const s = createServer(handler); s.listen(0, '127.0.0.1', () => res({ s, url: `http://127.0.0.1:${s.address().port}` })); });
 
 // C1
-const chromesIn = (dir) => { try { return execSync(`pgrep -f '${dir}' | wc -l`, { encoding: 'utf8' }).trim() * 1; } catch { return 0; } };
+// pgrep runs without a shell: Linux pgrep only hides itself, so a `sh -c "pgrep … | wc -l"` parent
+// (whose command line contains the dir) would always count as a surviving Chrome.
+const chromesIn = (dir) => { const r = spawnSync('pgrep', ['-f', dir], { encoding: 'utf8' }); return r.status === 0 ? r.stdout.trim().split('\n').filter(Boolean).length : 0; };
 
 test('C1: refused port → render exits 2 quickly with "not run", no Chrome left', { skip, timeout: 30000 }, () => {
   const own = tmp('apollo-own-');
@@ -54,7 +56,7 @@ const FX = join(here, 'fixtures/board');
 const deckCopy = () => { const d = tmp('apollo-board-'); cpSync(FX, d, { recursive: true }); return join(d, 'deck.json'); };
 const raw = (url, path, { method = 'GET', headers = {}, body } = {}) => new Promise((res) => { const u = new URL(url); const rq = request({ host: u.hostname, port: u.port, path, method, headers }, (r) => { r.resume(); res(r.statusCode); }); if (body) rq.write(body); rq.end(); });
 
-test('I2: case variants of private files and symlinks out of the deck are refused', async () => {
+test('I2: case variants of private files (existing or not, any filesystem) and symlinks out of the deck are refused', async () => {
   const deck = deckCopy();
   writeFileSync(join(dirname(deck), 'answers.json'), '{}');
   writeFileSync(join(dirname(deck), 'ratings.jsonl'), '');

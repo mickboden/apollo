@@ -3,7 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, extname, sep } from 'node:path';
 import { profilesRoot } from './profiles.mjs';
 
-export const DEFAULT_IGNORE = ['.git', 'node_modules', '.apollo', '.superpowers', '.design', 'evals/results', 'docs/superpowers'];
+export const DEFAULT_IGNORE = ['.git', 'node_modules', '.apollo', '.superpowers', '.design', 'evals/results', 'docs/superpowers', '.langdock'];
 const BINARY_EXT = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.avif', '.ico', '.pdf', '.woff', '.woff2', '.ttf', '.otf', '.mp4', '.mov', '.zip', '.potx', '.pptx']);
 
 const RULES = [

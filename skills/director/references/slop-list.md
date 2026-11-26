@@ -58,6 +58,14 @@ Why: Animates properties nobody chose, including layout; name the properties.
 
 Instead: List the exact properties: `transition: background-color 150ms, transform 120ms`.
 
+### outline-removed
+
+**Focus outline removed** · warn · checked by lint
+
+Why: Removing the outline without a visible replacement leaves keyboard users lost; it is also how rings end up clipped or square on rounded rows.
+
+Instead: Keep a `:focus-visible` ring that follows the shape: `outline: 2px solid var(--accent); outline-offset: 2px` (the outline takes the element's border-radius). Inside `overflow: hidden` containers, use an inset ring (`outline-offset: -2px`) so it is not clipped. Hide it only for pointer focus with `:focus:not(:focus-visible)`.
+
 ### pulse-glow
 
 **Pulsing, glowing or shimmering decoration** · fail · checked by lint and critic

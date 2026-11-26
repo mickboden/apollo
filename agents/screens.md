@@ -51,6 +51,18 @@ If something that would change the result is missing, return a question instead 
 - Keep earlier liked versions reachable (a file, a toggle) until the person lets them go.
 - Change only what the brief covers.
 
+### Build checklist
+
+These are the findings critics raise most often, and every one is cheaper to prevent than to fix in a loop. Check each while building, for concepts and builds alike:
+
+- **Long words wrap.** User-facing text gets `overflow-wrap: anywhere` and its flex or grid children `min-width: 0`. Try one 40-character word (a German compound, an email) in every text slot before rendering.
+- **Contrast at the smallest size.** Check contrast at the smallest size a `clamp()` can reach and at mid widths (around 768), not only at 1440. The 3:1 large-text allowance applies only at ≥24px, or ≥18.66px bold; below that it is 4.5:1.
+- **Focus rings survive.** Every interactive element has a `:focus-visible` ring that follows its border radius and is not clipped by an `overflow: hidden` parent (use an inset offset or an inset box-shadow there). Never `outline: none` without a `:focus-visible` replacement (lint flags it).
+- **Reserved space.** Image and media placeholders get a fixed box or `aspect-ratio`. Lay out with the longest realistic copy, and never put a fixed height on a box that holds text.
+- **Text that holds together.** A non-breaking space (`&nbsp;`) between a number and its unit ("12&nbsp;min"), inside brand names, and before the last word of a headline. Headings get `text-wrap: balance`, paragraphs `text-wrap: pretty`.
+- **Staggered text stays in its space.** Lines or words that animate in move within space reserved for their final layout and never overlap each other mid-flight. Check the middle frame of the flipbook, not only the end.
+- **Fixed and sticky bars.** Pad the scrolling content by the bar's height plus `env(safe-area-inset-bottom)` (top bars: `env(safe-area-inset-top)`), and set `scroll-padding` so anchored and focused elements don't land under the bar.
+
 ## Before you return: gates
 
 1. **Self-review against the top reference.** Screenshot desktop and phone; put them next to the top reference from the context. Would it hold up? Fix what fails.
@@ -63,7 +75,7 @@ A gate that exits 2 is "not run": say so with the reason. Never report it as pas
 
 ## Return
 
-- Paths: artifacts, concept folders, screenshot folders.
+- Paths: artifacts, concept folders, the render folder (screenshots plus `render.json`; the critics reuse it).
 - For concepts: a list of `{id, title, why, src}` ready for the deck.
 - What changed (short list) and which contract lines it covers.
 - Gate results: passed / failed (what remains) / not run (why).

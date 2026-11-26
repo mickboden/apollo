@@ -25,6 +25,7 @@ const CASES = [
   ['blur-motion', 'fail', 'e.css', '@keyframes swap {\n  from { filter: blur(6px); }\n  to { filter: blur(0); }\n}', 2],
   ['slide-swap', 'warn', 'f.css', '@keyframes in {\n  from { transform: translateX(24px); }\n  to { transform: none; }\n}', 2],
   ['transition-all', 'warn', 'g.css', '.b { transition: all 200ms ease; }', 1],
+  ['outline-removed', 'warn', 'g2.css', '.row:focus:not(:focus-visible) { outline: none; }\n.row:focus { outline: none; }', 2],
   ['pulse-glow', 'fail', 'h.css', '@keyframes pulse-dot { 50% { opacity: .4 } }', 1],
   ['pure-black-ink', 'warn', 'i.css', 'p { color: #000; }', 1],
   ['hard-offset-shadow', 'fail', 'j.css', '.card { box-shadow: 4px 4px 0 #000; }', 1],

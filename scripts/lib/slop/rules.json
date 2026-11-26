@@ -146,6 +146,18 @@
     }
   },
   {
+    "id": "outline-removed",
+    "title": "Focus outline removed",
+    "why": "Removing the outline without a visible replacement leaves keyboard users lost; it is also how rings end up clipped or square on rounded rows.",
+    "detect": "lint",
+    "severity": "warn",
+    "matcher": {
+      "kind": "regex",
+      "pattern": "^(?!.*:not\\(:focus-visible\\)).*\\boutline\\s*:\\s*(none|0)\\b",
+      "scope": "css"
+    }
+  },
+  {
     "id": "pulse-glow",
     "title": "Pulsing, glowing or shimmering decoration",
     "why": "Glowing and running dots look like AI slop and pull attention for nothing.",

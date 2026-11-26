@@ -31,6 +31,14 @@ You make things move, or decide they shouldn't. Smooth is non-negotiable; purpos
 6. **Reduced motion:** keep the fades, drop transform, filter and clip-path movement under `prefers-reduced-motion: reduce`.
 7. **Small steps** when tuning: one parameter, about 15–25%, previous value kept.
 
+## Build checklist
+
+The motion findings critics raise most often; prevent them while building:
+- **Staggered text stays in its space.** Lines or words animate within space reserved for their final layout (transform and opacity only, no layout properties), and never overlap each other mid-flight. Check the middle frame of the flipbook, not only the last.
+- **Growing lines and bars:** `transform: scaleX()` or `scaleY()` from 0 to 1 with the other axis at 1 (allowed at calm, ≤240ms). Animate width or height only on an element marked `data-motion="reveal"`.
+- **Fixed bars that slide in** leave the content padded for them (bar height plus `env(safe-area-inset-bottom)`) the whole time, so nothing hides under the bar once it has arrived.
+- **Focus rings** stay visible during and after a transition; don't animate `outline` away.
+
 ## Measure (required)
 
 For every animation that matters (openings, primary transitions, the signature detail, anything the person mentioned):
@@ -50,7 +58,7 @@ Also run `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs lint <changed files> --proj
 
 ## Return
 
-- For each animation: purpose (one line), property, duration, easing, exemption if any, and the flipbook path.
+- For each animation: purpose (one line), property, duration, easing, exemption if any, and its motion folder (flipbook plus `motion.json`; the critics reuse it, so pass `--out .apollo/motion/<name>` to keep the folders readable).
 - Measurement results: animations found, dropped frames, p95, violations (should be none).
 - Files changed.
 - Anything you chose not to animate, and why (one line each).

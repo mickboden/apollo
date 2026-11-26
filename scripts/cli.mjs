@@ -7,6 +7,7 @@ import { nodeProblem } from './lib/node-version.mjs';
 
 export const COMMANDS = {
   doctor: 'Check Node, Chrome, profiles and plugin root, with a fix for each problem: doctor [--json] [--skip-chrome]',
+  progress: 'Checkpoint a run so it can resume: progress start | add | override | show | done | clear',
   context: 'Print the merged design context (base → personal → brands → project)',
   profile: 'Create a profile: profile init personal | profile init brand <name>',
   project: 'Create the project layer: project init [--brand a,b] [--commit]',

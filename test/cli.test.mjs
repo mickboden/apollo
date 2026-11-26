@@ -7,7 +7,7 @@ import { dirname, join } from 'node:path';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const cli = (...a) => spawnSync(process.execPath, [join(root, 'scripts/cli.mjs'), ...a], { encoding: 'utf8' });
-const COMMANDS = 'doctor context profile project learn lint render motion privacy board migrate locate eval-deck'.split(' ');
+const COMMANDS = 'doctor progress context profile project learn lint render motion privacy board migrate locate eval-deck'.split(' ');
 
 test('cli --help exits 0 and lists every command', () => {
   const r = cli('--help');

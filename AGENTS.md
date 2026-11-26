@@ -12,7 +12,7 @@ An all-in-one design plugin for Claude Code. One user-facing skill (the Director
 | `agents/` | Specialist and critic agents |
 | `scripts/cli.mjs` | Zero-dependency Node CLI: context, profile, project, learn, lint, render, motion, privacy, board, migrate, locate, eval-deck |
 | `board/` | Local rating board (♥ / ✕ / 1–5 / note) |
-| `evals/` | Eval cases for `claude plugin eval` and blind-deck briefs |
+| `evals/` | Fixed regression cases (`claude plugin eval` + blind rounds), the creative case generator (`evals/creative/`), blind A/B sheets and the results ledger (`evals/ledger/`); see `evals/README.md` |
 | `profiles/example/` | A fictional public sample profile |
 
 ## Run

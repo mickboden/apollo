@@ -17,7 +17,8 @@ function primaryFile(dir) {
   return pngs.find((f) => /1440-light/.test(f)) || pngs[0] || (files.includes('flipbook.html') ? 'flipbook.html' : null);
 }
 
-export function buildBlindDeck(newDir, oldDir, { out, seed = Date.now() } = {}) {
+// titles: optional { case: one-line summary } shown on the cards (both arms of a case get the same title).
+export function buildBlindDeck(newDir, oldDir, { out, seed = Date.now(), titles = {} } = {}) {
   const rand = rng(seed);
   const id = () => `k${Math.floor(rand() * 36 ** 5).toString(36).padStart(5, '0')}`;
   const arms = [{ label: basename(newDir), dir: newDir }, { label: basename(oldDir), dir: oldDir }];
@@ -34,7 +35,7 @@ export function buildBlindDeck(newDir, oldDir, { out, seed = Date.now() } = {}) 
       if (!file) { notices.push(`case "${c}" in ${arm.dir} has nothing to show; skipped`); continue; }
       const cardId = id();
       cpSync(src, join(out, c, cardId), { recursive: true });
-      cards.push({ id: cardId, title: c, group: c, src: `${c}/${cardId}/${file}` });
+      cards.push({ id: cardId, title: titles[c] ? `${c}: ${titles[c]}` : c, group: c, src: `${c}/${cardId}/${file}` });
       answers[cardId] = arm.label;
     }
   }

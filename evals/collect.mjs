@@ -3,23 +3,21 @@
 //
 //   node evals/collect.mjs <runRoot>
 //
+// Works for both tracks: case details come from <runRoot>/cases/<case>/case.json (creative cases, copied in by
+// run-blind) or from the fixed-case table in lib/cases.mjs.
 // - Design cases: the built page (out/ or site/); slide sets are stacked into one page.
 // - review-page: the final report, as a readable page.
-// - Motion cases (fix-stutter, opening-animation): a real-speed flipbook recorded with measureMotion, so the
+// - Motion cases (fix-stutter, opening-animation, creative animation and Fix-stutter cases): a real-speed flipbook recorded with measureMotion, so the
 //   difference is visible on the board, plus a link to the live page.
 // - Nothing produced: an honest "No output" page.
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { measureMotion } from '../scripts/lib/motion.mjs';
+import { runCaseInfo } from './lib/cases.mjs';
 
 const ROOT = process.argv[2] && resolve(process.argv[2]);
 if (!ROOT) { console.error('Usage: node evals/collect.mjs <runRoot>'); process.exit(2); }
 
-// How each motion case is recorded: which file, which trigger, how long.
-const MOTION = {
-  'fix-stutter': { file: 'site/index.html', trigger: { type: 'click', selector: '#open' }, durationMs: 1600 },
-  'opening-animation': { file: 'out/index.html', trigger: { type: 'load' }, durationMs: 4500 },
-};
 
 const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
 const page = (title, inner) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>body{margin:0;background:#F4F4F5;color:#1A1C21;font:16px/1.6 system-ui,sans-serif}main{max-width:860px;margin:0 auto;padding:48px 32px}h1,h2,h3{letter-spacing:-.01em}iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#fff;margin:0 0 16px}</style></head><body><main>${inner}</main></body></html>`;
@@ -36,10 +34,11 @@ for (const arm of ['new', 'old']) {
     mkdirSync(dest, { recursive: true });
     const final = existsSync(join(ws, 'FINAL_MESSAGE.md')) ? readFileSync(join(ws, 'FINAL_MESSAGE.md'), 'utf8') : '';
 
-    if (c === 'review-page') { writeFileSync(join(dest, 'index.html'), page('Review', md(final || 'No report was produced.'))); continue; }
+    const info = runCaseInfo(ROOT, c);
+    if (info.report) { writeFileSync(join(dest, 'index.html'), page('Review', md(final || 'No report was produced.'))); continue; }
 
-    if (MOTION[c] && existsSync(join(ws, MOTION[c].file))) {
-      const m = MOTION[c];
+    if (info.motion && existsSync(join(ws, info.motion.file))) {
+      const m = info.motion;
       const live = m.file.split('/')[0];
       cpSync(join(ws, live), join(dest, live), { recursive: true });
       try {
@@ -53,7 +52,8 @@ for (const arm of ['new', 'old']) {
       continue;
     }
 
-    const src = ['out', 'site'].map((d) => join(ws, d)).find((d) => existsSync(d) && htmlFiles(d).length);
+    // Creative cases always write ./out; their ./site is the untouched starting page, never a result.
+    const src = (info.track === 'creative' ? ['out'] : ['out', 'site']).map((d) => join(ws, d)).find((d) => existsSync(d) && htmlFiles(d).length);
     if (!src) { writeFileSync(join(dest, 'index.html'), page('No output', '<h1>No output was produced.</h1>')); continue; }
     cpSync(src, dest, { recursive: true });
     if (!existsSync(join(dest, 'index.html'))) {

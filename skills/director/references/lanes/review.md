@@ -5,7 +5,7 @@
 ## Steps
 
 1. **Load** context and the contract if one exists. Note the time; a review takes real checks, not one quick read.
-2. **Render** the target: `node <plugin>/scripts/cli.mjs render <url or file> --out .apollo/render/review`. Run `cli.mjs lint` on its source if you have it, and `cli.mjs motion` on its main transitions.
+2. **Render** the target: `cli.mjs render <url or file> --out .apollo/render/review`. Run `cli.mjs lint` on its source if you have it, and `cli.mjs motion` on its main transitions.
 3. **Critics in parallel. Never skip the critics**, even for a small page. Each gets screenshots, paths, the URL, the dials, the never-list and the contract (never the conversation):
    - **critic-slop**: AI tells, taste violations, the bold move.
    - **critic-motion**: smoothness and purpose of motion.

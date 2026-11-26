@@ -59,19 +59,19 @@ Run the deterministic checks. On web, Assessment B is mandatory and must remain 
 
 Source scan:
 ```bash
-node <plugin>/scripts/cli.mjs lint <markup and style files or folders> --project <project root> --json
+cli.mjs lint <markup and style files or folders> --project <project root> --json
 ```
 
 Rendered scan:
 ```bash
-node <plugin>/scripts/cli.mjs render <url or html file> --out .apollo/render/critique --json
+cli.mjs render <url or html file> --out .apollo/render/critique --json
 ```
 
 - Exit code 0 = clean; 1 = findings; 2 = could not run (report it as not run, with the reason).
 - For very large trees (500+ scannable files), narrow scope or ask.
 - The render scan returns screenshots for 390/768/1440 in light and dark plus 1440 at 200% zoom, and finds horizontal scroll, overflowing text, overlapping text and small targets. Open the screenshots; they are part of the evidence.
 - For multi-view targets, render 3–5 representative pages.
-- When anything animates, also run `node <plugin>/scripts/cli.mjs motion <url> --click <selector> --json` on the main transitions.
+- When anything animates, also run `cli.mjs motion <url> --click <selector> --json` on the main transitions.
 
 **Desktop apps** (Electron, NW.js, CEF, WebView2): there is no URL to open, so Assessment B attaches to the running app instead.
 

@@ -2,7 +2,7 @@
 
 The `screens` skill is a modified fork of Impeccable's text (SKILL.md and reference/). The compiled `impeccable` binary is not included and not called.
 
-- Removed the binary launcher: `context` now runs `node <plugin>/scripts/cli.mjs context`, which also loads the stacked personal, brand and project profiles; the "launcher unavailable" branch is gone.
+- Removed the binary launcher: `context` now runs `cli.mjs context`, which also loads the stacked personal, brand and project profiles; the "launcher unavailable" branch is gone.
 - Removed binary-only playbooks: live, live-setup, hooks, doctor, generate, visualize (comp-led builds), component-review, region-map, routing, craft (alias) and the degraded agent stubs. The Director's lanes, board and gates replace them.
 - Replaced the design detector (`impeccable detect`) with `cli.mjs lint` (source) plus `cli.mjs render` (rendered layout checks) everywhere it was called, including critique Assessment B.
 - Replaced critique storage (`critique-storage slug/write/trend/latest/close`) with plain Markdown snapshots in `.design/critiques/<slug>/` and a `status: open|closed` front-matter field.

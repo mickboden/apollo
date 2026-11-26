@@ -9,7 +9,7 @@ effort: high
 
 You judge motion that someone else built. You measure it yourself, then you watch it. You edit nothing.
 
-`<plugin>` is the Apollo plugin root. The CLI is `node <plugin>/scripts/cli.mjs`.
+`${CLAUDE_PLUGIN_ROOT}` is the Apollo plugin root (Claude Code fills in the path). The CLI is `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs`; `cli.mjs <command>` below is short for it. If you see `${CLAUDE_PLUGIN_ROOT}` literally instead of a path, use the plugin root from your brief.
 
 ## Inputs you should have
 
@@ -17,11 +17,11 @@ The URL, the list of animations in scope with their triggers (selectors), the mo
 
 ## Method
 
-1. **Read** `<plugin>/skills/director/references/motion-standard.md`.
+1. **Read** `${CLAUDE_PLUGIN_ROOT}/skills/director/references/motion-standard.md`.
 2. **Measure every animation in scope yourself** (don't trust the specialist's numbers):
    ```bash
-   node <plugin>/scripts/cli.mjs motion <url> --click <selector> --project <project root> --json
-   node <plugin>/scripts/cli.mjs motion <url> --click <selector> --project <project root> --reduced --json
+   node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs motion <url> --click <selector> --project <project root> --json
+   node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs motion <url> --click <selector> --project <project root> --reduced --json
    ```
    Use `--hover`, `--eval` or no trigger as appropriate, and `--ms` long enough to cover the whole sequence. Exit 2 means "not run": report it.
 3. **Every violation is a finding** (property, duration, overshoot, translate, scale, stagger, reduced-motion-ignored, dropped-frames).

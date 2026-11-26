@@ -12,11 +12,11 @@ Core principles:
 - Scale ambition to the surface's mode (see Modes) and to the creativity dial. Persuade and Experience get full commitment: bold, distinct work with a point of view. On Operate and Read, ambition shows as precision and restraint, and patterns the visitor already knows earn their place.
 - Verify by looking at the rendered result at the sizes it ships at, and batch the checks: fix what one look shows before looking again, rather than screenshotting after every tweak.
 
-`<plugin>` below means the Apollo plugin root (two levels above this file). `references/X.md` means `<plugin>/skills/director/references/X.md`.
+`${CLAUDE_PLUGIN_ROOT}` is the Apollo plugin root; Claude Code fills in the path when this skill loads (outside the plugin it is two folders above this file). `references/X.md` means `${CLAUDE_PLUGIN_ROOT}/skills/director/references/X.md`, and `cli.mjs <command>` in any playbook means `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs <command>`.
 
 ## Setup
 
-1. Run `node <plugin>/scripts/cli.mjs context --project <project root>` once per session, unless the Director already passed you its output. It prints the merged dials, never-list, top reference and the personal, brand and project layers. Those layers outrank everything in this skill.
+1. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs context --project <project root>` once per session, unless the Director already passed you its output. It prints the merged dials, never-list, top reference and the personal, brand and project layers. Those layers outrank everything in this skill.
 2. Read `references/base-taste.md` and `references/density.md`. Read `references/motion-standard.md` before any motion work, and `references/copy.md` before writing interface copy.
 3. Read PRODUCT.md and DESIGN.md if they exist, plus the project's real tokens, components and representative screens. **Host first:** inside an existing product, inventory its tokens and components before designing anything.
 4. Load the request's playbook from the Commands table, or [reference/new-work.md](reference/new-work.md) for a new surface or replacement visual world.
@@ -80,4 +80,4 @@ Routing (the Director has usually decided already):
 
 ## Checks
 
-Every playbook ends in the Director's gates (`references/gates.md`): `cli.mjs lint`, `cli.mjs render`, `cli.mjs motion` when anything animates, then the critic agents. Where a playbook below says "run the detector", run `node <plugin>/scripts/cli.mjs lint <changed files> --project <project root> --json` and `node <plugin>/scripts/cli.mjs render <url or file>`.
+Every playbook ends in the Director's gates (`references/gates.md`): `cli.mjs lint`, `cli.mjs render`, `cli.mjs motion` when anything animates, then the critic agents. Where a playbook below says "run the detector", run `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs lint <changed files> --project <project root> --json` and `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs render <url or file>`.

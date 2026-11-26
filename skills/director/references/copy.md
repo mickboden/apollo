@@ -28,7 +28,7 @@ Also avoid: "in today's fast-paced world", "whether you're X or Y", "take it to 
 
 ## Humanizer
 
-If the `humanizer` skill is installed (find it with `node <plugin>/scripts/cli.mjs locate humanizer`), run its pass over any audience-facing text longer than a paragraph before hand-over.
+If the `humanizer` skill is installed (find it with `cli.mjs locate humanizer`), run its pass over any audience-facing text longer than a paragraph before hand-over.
 
 ## Length
 

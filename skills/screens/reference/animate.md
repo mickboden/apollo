@@ -1,6 +1,6 @@
 > **Additional context needed**: performance constraints.
 
-> **The motion dial binds this playbook.** Read `references/motion-standard.md` (in `<plugin>/skills/director/`) first. At `still` and `calm`, the blur, filter and backdrop techniques below are off, and stagger is allowed only for data reveals marked `data-motion="reveal"`. Openings use `data-motion="opening"`. Measure every animation with `cli.mjs motion`.
+> **The motion dial binds this playbook.** Read `references/motion-standard.md` first. At `still` and `calm`, the blur, filter and backdrop techniques below are off, and stagger is allowed only for data reveals marked `data-motion="reveal"`. Openings use `data-motion="opening"`. Measure every animation with `cli.mjs motion`.
 
 Use motion to explain state, relationship, and hierarchy, or to create one authored moment the surface has earned. Decoration without purpose is animation debt.
 

@@ -1,6 +1,6 @@
 # Motion standard
 
-Smooth is the one non-negotiable. Everything else depends on the motion dial. Motion is measured with `node <plugin>/scripts/cli.mjs motion`, never assumed from reading code.
+Smooth is the one non-negotiable. Everything else depends on the motion dial. Motion is measured with `cli.mjs motion`, never assumed from reading code.
 
 ## The dial
 

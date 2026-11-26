@@ -5,7 +5,7 @@ Make an existing screen better while keeping its identity. The person should rec
 ## Steps
 
 1. **Load and look.** Context output, the project's contract, and a render of the current state:
-   `node <plugin>/scripts/cli.mjs render <url> --out .design/board/<round>/before`
+   `cli.mjs render <url> --out .design/board/<round>/before`
 2. **Quick critique** (in this thread, 5–8 lines): what already works (keep it), and the 3 biggest gaps against base taste, density and the top reference. Name each gap concretely ("9 modules on the home screen; budget is 4", "cards carry three tints").
 3. **Restate the goal** in one line, in the person's terms.
 4. **Options.** Brief the **screens** agent (and **motion** if motion is in scope) to make 2–3 options. **Each option changes one axis**, for example:

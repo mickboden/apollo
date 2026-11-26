@@ -5,8 +5,8 @@ Something is broken: an animation stutters, text overflows, elements overlap, a 
 ## Steps
 
 1. **Reproduce with a measurement**, not a guess:
-   - Layout: `node <plugin>/scripts/cli.mjs render <url> --json` (at the width and theme where it breaks; add `--widths`/`--themes`).
-   - Motion: `node <plugin>/scripts/cli.mjs motion <url> --click <selector> --json` (look at dropped frames, p95, properties, durations; open the flipbook).
+   - Layout: `cli.mjs render <url> --json` (at the width and theme where it breaks; add `--widths`/`--themes`).
+   - Motion: `cli.mjs motion <url> --click <selector> --json` (look at dropped frames, p95, properties, durations; open the flipbook).
    - Behaviour: drive the interaction in the browser and capture the broken state.
    Save this as the "before" evidence.
 2. **Find the root cause.** Read the code path that produces the measured symptom. Form one hypothesis, test it with the smallest change or a probe, and confirm before fixing. If `superpowers:systematic-debugging` is installed, follow it.

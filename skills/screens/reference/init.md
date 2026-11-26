@@ -109,7 +109,7 @@ Before loading new-work or resuming shape/build, verify that PRODUCT.md exists a
 
 ## Step 5: Record workflow defaults
 
-Workflow defaults (dials, top reference, brand profiles) live in the Apollo project layer, not in PRODUCT.md. If `.design/project.md` does not exist, run `node <plugin>/scripts/cli.mjs project init --brand <brand names, if any>` and record the surface mode there.
+Workflow defaults (dials, top reference, brand profiles) live in the Apollo project layer, not in PRODUCT.md. If `.design/project.md` does not exist, run `cli.mjs project init --brand <brand names, if any>` and record the surface mode there.
 
 ## Step 6: Wrap up or resume
 

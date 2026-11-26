@@ -126,7 +126,7 @@ cd your-project && node <apollo>/scripts/cli.mjs project init --brand acme
 
 > **Where is `<apollo>`?** For a local clone, it's the clone. When installed from GitHub, it's in the plugin cache:
 > `find ~/.claude/plugins -path "*apollo*/scripts/cli.mjs" | head -1`
-> The Director and its agents find it themselves; you only need it for manual commands.
+> The Director and its agents get it from Claude Code (`${CLAUDE_PLUGIN_ROOT}`), so you only need it for manual commands. `node <apollo>/scripts/cli.mjs doctor` prints it.
 
 ## Recommended: make Apollo the only design skill
 

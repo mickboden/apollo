@@ -31,8 +31,8 @@ HTML concepts are shown as a live, scaled-down desktop view (1440 wide).
 
 ## Serve and read
 
-- Start it in the background: `node <plugin>/scripts/cli.mjs board serve <deck.json>`. It prints a local URL; open it for the person (or give them the link).
-- Read the results: `node <plugin>/scripts/cli.mjs board results <deck.json> --json`. Sorted by score, with ♥/✕ and notes.
+- Start it in the background: `cli.mjs board serve <deck.json>`. It prints a local URL; open it for the person (or give them the link).
+- Read the results: `cli.mjs board results <deck.json> --json`. Sorted by score, with ♥/✕ and notes.
 - Ratings are in `ratings.jsonl` next to the deck (the last line per card wins).
 
 ## Writing good cards

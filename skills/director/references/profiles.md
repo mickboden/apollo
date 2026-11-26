@@ -27,7 +27,7 @@ The profiles root is `~/.design-profiles`, or `$APOLLO_PROFILES_DIR` if set. It 
 
 ## Commands
 
-- `node <plugin>/scripts/cli.mjs context --project <dir>` (add `--json` for machines): the merged result. Run it at the start of every session.
+- `cli.mjs context --project <dir>` (add `--json` for machines): the merged result. Run it at the start of every session.
 - `profile init personal` / `profile init brand <name>`: create a profile.
 - `project init --brand <a,b>`: create the project layer. It adds `.design/` to `.gitignore` unless `--commit` is passed.
 - `learn --layer <layer> --rule "<rule>" --evidence "<what happened>"`: save a lesson.

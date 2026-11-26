@@ -1,15 +1,15 @@
 # Gates
 
-Nothing reaches the person until it has passed the gates. Gates run on the **rendered** result, not on intentions. `<plugin>` is this plugin's root folder (two levels above this file's `skills/` folder).
+Nothing reaches the person until it has passed the gates. Gates run on the **rendered** result, not on intentions. `cli.mjs <command>` means `node <plugin root>/scripts/cli.mjs <command>`; the Director's SKILL.md gives the root.
 
 ## Order
 
 1. **Self-review** (the building specialist): put a screenshot next to the profile's top reference. Would it hold up? Fix before continuing.
-2. **Lint**: `node <plugin>/scripts/cli.mjs lint <changed files or folders> --project <project>`
-3. **Render**: `node <plugin>/scripts/cli.mjs render <url or html file> --out .apollo/render/<round>`
+2. **Lint**: `cli.mjs lint <changed files or folders> --project <project>`
+3. **Render**: `cli.mjs render <url or html file> --out .apollo/render/<round>`
    - Widths 390, 768, 1440; light and dark; plus 1440 at 200% zoom.
    - Finds horizontal scroll, text overflowing its box, overlapping text and targets under 24px.
-4. **Motion** (when anything animates): `node <plugin>/scripts/cli.mjs motion <url> --click <selector> --project <project>`, and again with `--reduced`.
+4. **Motion** (when anything animates): `cli.mjs motion <url> --click <selector> --project <project>`, and again with `--reduced`.
    - One run per animation that matters (opening, primary transitions, signature detail).
    - Produces a flipbook at real speed.
 5. **Critics**, each a fresh agent that never saw the build conversation:
@@ -18,7 +18,7 @@ Nothing reaches the person until it has passed the gates. Gates run on the **ren
    - `critic-break`: worst-case data plus accessibility.
    - `critic-contract`: ticks every line of `.design/contract.md`.
    - **Brief-fit** (inside `critic-slop`): the Director passes the quality words from the request ("vibey", "less generic", "catchy", "premium", "calmer", "bolder", "more exciting", or the lane's goal line). The critic answers each with **met** or **not met**, plus the evidence and the missing move. Any **not met** is a failed gate, exactly like a slop finding. "Cleaner, but not yet vibey" means not met.
-6. **Privacy** (only before publishing anything public): `node <plugin>/scripts/cli.mjs privacy <folder>`
+6. **Privacy** (only before publishing anything public): `cli.mjs privacy <folder>`
 
 ## Exit codes
 

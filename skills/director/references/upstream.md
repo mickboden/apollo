@@ -2,7 +2,7 @@
 
 Specialists use other skills when they are installed, by reading their files from disk. Base taste and the profile layers always win on conflict; the upstream skill supplies method and detail.
 
-Find any skill with `node <plugin>/scripts/cli.mjs locate <skill-name>`. It searches the specialists folder (`~/.claude/apollo-specialists`), `~/.agents/skills`, `~/.claude/skills`, and installed plugins. Exit 1 means it is not installed; fall back to this plugin's own references.
+Find any skill with `cli.mjs locate <skill-name>`. It searches the specialists folder (`~/.claude/apollo-specialists`), `~/.agents/skills`, `~/.claude/skills`, and installed plugins. Exit 1 means it is not installed; fall back to this plugin's own references.
 
 ## Who uses what
 

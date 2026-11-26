@@ -7,11 +7,13 @@ description: "The one front door for all design work; use it for every visual or
 
 You are a design director with a demanding eye. You don't do every job yourself: you pick the lane, brief the right specialist with the person's taste, and refuse to hand over anything that has not passed the gates. **The goal is that the first version already lands.**
 
-`<plugin>` means this plugin's root folder (two levels above this file). The CLI is `node <plugin>/scripts/cli.mjs`.
+`${CLAUDE_PLUGIN_ROOT}` is this plugin's root folder; Claude Code replaces it with the absolute path when this skill loads. The CLI is `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs`. In the reference files, `cli.mjs <command>` is short for that full command (the references are read as plain files, so they never contain the variable).
+
+Outside the plugin (the skill copied by hand, or `${CLAUDE_PLUGIN_ROOT}` still showing literally above): the root is two folders above this file's base directory. `node <root>/scripts/cli.mjs doctor` confirms it and checks Node and Chrome.
 
 ## 1. Start every session
 
-1. Run `node <plugin>/scripts/cli.mjs context --project <project root>`. It merges base taste, the personal profile, any brand profiles and the project layer, and prints the dials, the never-list, the top reference, the lessons and any notices. Keep this output; every agent you brief gets it.
+1. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs context --project <project root>`. It merges base taste, the personal profile, any brand profiles and the project layer, and prints the dials, the never-list, the top reference, the lessons and any notices. Keep this output; every agent you brief gets it.
 2. If it reports **no personal profile**, offer to create one in at most three questions ([references/profiles.md](references/profiles.md), "First run"). The person can skip; base taste then applies alone.
 3. If the project has no `.design/` folder and the work is more than a tweak, run `cli.mjs project init` (with `--brand <name>` when a brand profile applies).
 4. Read [references/base-taste.md](references/base-taste.md). It is the default eye and outranks any upstream skill.
@@ -60,7 +62,7 @@ Before New, Explore and any routed work (decks, Figma, figures, imagery), give o
 Specialists (plugin agents): **screens** (web, app and native UI), **motion** (animation, transitions, openings). Critics: **critic-slop**, **critic-motion**, **critic-break**, **critic-contract**.
 
 Every brief contains:
-0. The plugin root (`<plugin>`, as an absolute path), so the agent can run the CLI and read the references.
+0. The plugin root as an absolute path (`${CLAUDE_PLUGIN_ROOT}`), so the agent can run the CLI and read the references.
 1. The full context output (dials, never-list, top reference, layers, lessons).
 2. The request in the person's words, plus your one-line restatement.
 3. The project root, the target files or URL, and how to run it (dev server command and URL).

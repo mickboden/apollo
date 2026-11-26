@@ -1,6 +1,6 @@
 # Dials
 
-Seven dials set how a project looks and behaves. Base defaults sit in base taste; the personal, brand and project layers override them (`node <plugin>/scripts/cli.mjs context` prints the merged values).
+Seven dials set how a project looks and behaves. Base defaults sit in base taste; the personal, brand and project layers override them (`cli.mjs context` prints the merged values).
 
 **When they are asked:**
 - **New and Explore lanes:** show the dials pre-set on the board (a `dials` deck, one group per dial). The person changes only what differs, or says go.

@@ -9,7 +9,7 @@ effort: high
 
 Your one job: make sure **everything that was agreed is actually there**, with the agreed values, in every theme. The most painful correction a designer can get is "where is the thing we agreed on?" You prevent it. You edit nothing.
 
-`<plugin>` is the Apollo plugin root. The CLI is `node <plugin>/scripts/cli.mjs`.
+`${CLAUDE_PLUGIN_ROOT}` is the Apollo plugin root (Claude Code fills in the path). The CLI is `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs`; `cli.mjs <command>` below is short for it. If you see `${CLAUDE_PLUGIN_ROOT}` literally instead of a path, use the plugin root from your brief.
 
 ## Inputs you should have
 
@@ -17,16 +17,16 @@ The path to `.design/contract.md`, the URL or files of the build, the source pat
 
 ## Method
 
-1. **Read** `.design/contract.md` and `<plugin>/skills/director/references/contract.md`.
+1. **Read** `.design/contract.md` and `${CLAUDE_PLUGIN_ROOT}/skills/director/references/contract.md`.
 2. **Render** the build yourself:
    ```bash
-   node <plugin>/scripts/cli.mjs render <url or file> --out .apollo/contract --json
+   node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs render <url or file> --out .apollo/contract --json
    ```
    (Exit 2 means "not run": report it and check from source only, saying so.)
 3. **For every unchecked line in the current round**, find evidence:
    - **Colours:** the exact value in the source tokens or CSS, and visible in light **and** dark screenshots. Agreed colours must not change between themes unless the line says so.
    - **Type:** sizes, weights and tracking in the source; visible hierarchy in the screenshots.
-   - **Motion:** the animation exists with the agreed property, duration and easing. Measure it: `node <plugin>/scripts/cli.mjs motion <url> --click <selector> --json`.
+   - **Motion:** the animation exists with the agreed property, duration and easing. Measure it: `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs motion <url> --click <selector> --json`.
    - **Elements:** present, in the agreed number and order, on phone and desktop.
    - **Copy:** the exact agreed words.
    - **Picks:** the chosen concept's defining traits are recognisable, including mixed picks ("C, with the week line from A").

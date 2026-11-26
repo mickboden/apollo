@@ -28,7 +28,7 @@ Gather about 10 references that span a real range. Sources, in order:
 2. Mobbin (`search_screens`, `search_flows`, `search_sections`) when the Mobbin MCP is connected.
 3. Live sites and products via the browser tools or web search: the competitors and the best-in-class outside the category.
 
-For each, take a screenshot (`node <plugin>/scripts/cli.mjs render <url> --widths 1440 --themes light --zoom "" --out .design/board/<round>/refs/<id>`) and write one `why` line naming a specific quality. Build a `refs` deck with `"layer": "personal"` (or the brand) and serve it. The person rates; ♥/✕ write into the profile.
+For each, take a screenshot (`cli.mjs render <url> --widths 1440 --themes light --zoom "" --out .design/board/<round>/refs/<id>`) and write one `why` line naming a specific quality. Build a `refs` deck with `"layer": "personal"` (or the brand) and serve it. The person rates; ♥/✕ write into the profile.
 
 Skip this step only when the person says so, or when the project already has a rated reference round for this surface.
 

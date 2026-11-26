@@ -25,14 +25,14 @@ When a sub-agent tool is available and permitted, run these independently; other
 2. **Mechanical scan:** run:
 
 ```bash
-node <plugin>/scripts/cli.mjs lint [target files or dirs] --json
+cli.mjs lint [target files or dirs] --json
 ```
 
 Also inspect arbitrary spacing, overflow, stacking, and container behavior the detector cannot resolve. Keep mechanical evidence out of the first assessment, then synthesize both passes before editing. A clean scan cannot prove hierarchy or rhythm.
 
 ## Set the spatial thesis
 
-Start from the information budget in `references/density.md` (in `<plugin>/skills/director/`): one hero, then 3–5 modules of 2–3 items, detail behind a click. Spacing cannot fix a screen that shows too much.
+Start from the information budget in `references/density.md`: one hero, then 3–5 modules of 2–3 items, detail behind a click. Spacing cannot fix a screen that shows too much.
 
 Before editing, name:
 

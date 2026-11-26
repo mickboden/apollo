@@ -1,0 +1,23 @@
+{
+  "id": "s1-05-product-page",
+  "seed": 1,
+  "index": 5,
+  "track": "creative",
+  "lane": "fix",
+  "axes": {
+    "artifact": "product-page",
+    "domain": "observatory",
+    "brand": {
+      "name": "Touar",
+      "premise": "Touar opens a hilltop observatory to the public on clear nights."
+    },
+    "quirk": "It works across three countries.",
+    "audience": "amateur astronomers",
+    "tone": "grand and civic",
+    "constraint": null,
+    "defect": "overlap"
+  },
+  "output": "out/index.html",
+  "fixture": "fixtures/site/index.html",
+  "summary": "[Fix] product page · Touar (public observatory) · for amateur astronomers · grand and civic · defect: overlap"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "s1-02-intro-animation",
+  "seed": 1,
+  "index": 2,
+  "track": "creative",
+  "lane": "new",
+  "axes": {
+    "artifact": "intro-animation",
+    "domain": "crop-drones",
+    "brand": {
+      "name": "Luro Collective",
+      "premise": "Luro Collective flies drones over farms to spot crop stress early."
+    },
+    "quirk": "It started as a hobby and grew by word of mouth.",
+    "audience": "agronomists",
+    "tone": "nerdy and meticulous",
+    "constraint": "type only: no pictures or illustrations, typography carries everything",
+    "lengthS": 2
+  },
+  "motion": {
+    "file": "out/index.html",
+    "trigger": {
+      "type": "load"
+    },
+    "durationMs": 3500
+  },
+  "output": "out/index.html",
+  "fixture": null,
+  "summary": "[New] opening animation · Luro Collective (crop survey drones) · for agronomists · nerdy and meticulous · constraint: type only"
+}

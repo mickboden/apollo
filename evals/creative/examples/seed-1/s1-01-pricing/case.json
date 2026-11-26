@@ -1,0 +1,22 @@
+{
+  "id": "s1-01-pricing",
+  "seed": 1,
+  "index": 1,
+  "track": "creative",
+  "lane": "new",
+  "axes": {
+    "artifact": "pricing",
+    "domain": "prosthetics",
+    "brand": {
+      "name": "Morel",
+      "premise": "Morel designs and fits custom prosthetic limbs."
+    },
+    "quirk": "It is funded by a city grant.",
+    "audience": "new amputees and their families",
+    "tone": "loud and confident",
+    "constraint": "no gradients and no shadows"
+  },
+  "output": "out/index.html",
+  "fixture": null,
+  "summary": "[New] pricing page · Morel (prosthetics workshop) · for new amputees and their families · loud and confident · constraint: no gradients and no shadows"
+}

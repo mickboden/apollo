@@ -1,0 +1,22 @@
+{
+  "id": "s1-04-event-poster",
+  "seed": 1,
+  "index": 4,
+  "track": "creative",
+  "lane": "new",
+  "axes": {
+    "artifact": "event-poster",
+    "domain": "bow-rehair",
+    "brand": {
+      "name": "Tresi",
+      "premise": "Tresi rehairs and repairs bows for string players."
+    },
+    "quirk": "It works from a converted railway depot.",
+    "audience": "parents of music students",
+    "tone": "rebellious",
+    "constraint": "monospace type only"
+  },
+  "output": "out/index.html",
+  "fixture": null,
+  "summary": "[New] event poster page · Tresi (violin bow rehairing) · for parents of music students · rebellious · constraint: monospace type only"
+}

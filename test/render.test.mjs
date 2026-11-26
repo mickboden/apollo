@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, mkdtempSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -58,4 +58,27 @@ test('folder target → exit 2', () => {
   const r = cli({}, 'render', FX);
   assert.equal(r.status, 2);
   assert.match(r.stderr, /start the dev server/);
+});
+
+test('a fixed bottom bar over scrolling content is fine when the page pads for it', { skip, timeout: 60000 }, async () => {
+  const r = await renderMatrix(join(FX, 'fixed-bar-padded.html'), { outDir: out() });
+  assert.deepEqual(r.findings.filter((f) => f.rule === 'overlap'), []);
+});
+
+test('text that stays under a fixed bar at every scroll position is an overlap', { skip, timeout: 60000 }, async () => {
+  const r = await renderMatrix(join(FX, 'fixed-bar-unpadded.html'), { outDir: out(), widths: [390], themes: ['light'], zoom: [] });
+  const o = r.findings.find((f) => f.rule === 'overlap' && /#last × nav/.test(f.selector));
+  assert.ok(o, JSON.stringify(r.findings));
+  assert.ok(!r.findings.some((f) => /:nth-of-type\([1-9]\) × nav/.test(f.selector)), 'rows that scroll clear are not flagged');
+  assert.match(o.detail, /every scroll position/);
+});
+
+test('cli render saves render.json next to the screenshots for critics to reuse', { skip, timeout: 60000 }, () => {
+  const o = out();
+  const r = cli({}, 'render', join(FX, 'clean.html'), '--out', o, '--widths', '390', '--themes', 'light', '--zoom', '');
+  assert.equal(r.status, 0, r.stderr);
+  const j = JSON.parse(readFileSync(join(o, 'render.json'), 'utf8'));
+  assert.equal(j.shots.length, 1);
+  assert.deepEqual(j.findings, []);
+  assert.match(j.target, /clean\.html$/);
 });

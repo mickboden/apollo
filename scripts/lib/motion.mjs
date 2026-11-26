@@ -51,12 +51,41 @@ export function transformExtent(values) {
   let translate = 0; let scaleMin = 1; let scaleMax = 1;
   for (const v of values) {
     const mat = /matrix\(([^)]+)\)/.exec(v);
-    if (mat) { const n = mat[1].split(',').map(Number); const s = Math.hypot(n[0], n[1]); scaleMin = Math.min(scaleMin, s); scaleMax = Math.max(scaleMax, s); translate = Math.max(translate, Math.abs(n[4]), Math.abs(n[5])); continue; }
+    if (mat) { const n = mat[1].split(',').map(Number); const sx = Math.hypot(n[0], n[1]); const sy = Math.hypot(n[2], n[3]); scaleMin = Math.min(scaleMin, sx, sy); scaleMax = Math.max(scaleMax, sx, sy); translate = Math.max(translate, Math.abs(n[4]), Math.abs(n[5])); continue; }
     for (const t of v.matchAll(/translate(?:X|Y|3d)?\(([^)]+)\)/g)) for (const part of t[1].split(',')) { const px = /(-?[\d.]+)px/.exec(part); if (px) translate = Math.max(translate, Math.abs(+px[1])); }
     for (const s of v.matchAll(/scale(?:X|Y)?\(([^)]+)\)/g)) for (const part of s[1].split(',')) { const x = parseFloat(part); if (!Number.isNaN(x)) { scaleMin = Math.min(scaleMin, x); scaleMax = Math.max(scaleMax, x); } }
   }
   return { translate, scaleMin, scaleMax };
 }
+
+// Per-keyframe axis scales, for telling a one-axis "draw" (an underline or bar growing along one
+// axis) from a zoom. Handles matrix(), scale(), scaleX() and scaleY().
+export function axisScales(values) {
+  return values.map((v) => {
+    const mat = /matrix\(([^)]+)\)/.exec(v);
+    if (mat) { const n = mat[1].split(',').map(Number); return { sx: Math.hypot(n[0], n[1]), sy: Math.hypot(n[2], n[3]) }; }
+    let sx = 1; let sy = 1;
+    for (const m of v.matchAll(/scale(X|Y)?\(([^)]+)\)/g)) {
+      const parts = m[2].split(',').map((x) => parseFloat(x));
+      if (m[1] === 'X') sx *= parts[0];
+      else if (m[1] === 'Y') sy *= parts[0];
+      else { sx *= parts[0]; sy *= parts.length > 1 ? parts[1] : parts[0]; }
+    }
+    return { sx, sy };
+  });
+}
+
+// A short reveal that grows along one axis from 0–1 while the other axis stays put. Calm allows it:
+// it draws a line, it does not zoom content.
+export function isOneAxisReveal(values) {
+  const s = axisScales(values);
+  if (s.length < 2) return false;
+  const near1 = (x) => Math.abs(x - 1) <= 0.02;
+  const grows = (k) => s.every((x) => x[k] >= 0 && x[k] <= 1.001) && Math.min(...s.map((x) => x[k])) < 0.95;
+  return (s.every((x) => near1(x.sy)) && grows('sx')) || (s.every((x) => near1(x.sx)) && grows('sy'));
+}
+
+const SIZE_PROPS = new Set(['width', 'height', 'max-width', 'max-height', 'inline-size', 'block-size']);
 
 export function violationsFor(anims, dial, { reducedMotion = false } = {}) {
   const v = [];
@@ -74,12 +103,14 @@ export function violationsFor(anims, dial, { reducedMotion = false } = {}) {
     }
     if (easingsOf(a).some(bezierOvershoots)) v.push({ rule: 'overshoot', detail: `${tag} uses an overshoot curve` });
     if (dial === 'calm') {
-      const bad = a.properties.filter((p) => !CALM_PROPS.has(p) && !isColourProp(p));
-      if (bad.length) v.push({ rule: 'property', detail: `${tag}: ${bad.join(', ')} not allowed at calm` });
+      // Size properties are allowed for marked data reveals (bars growing); elsewhere they relayout every frame.
+      const bad = a.properties.filter((p) => !CALM_PROPS.has(p) && !isColourProp(p) && !(a.exemption === 'reveal' && SIZE_PROPS.has(p)));
+      if (bad.length) v.push({ rule: 'property', detail: `${tag}: ${bad.join(', ')} not allowed at calm${bad.some((p) => SIZE_PROPS.has(p)) ? ' (for a line or bar growing, use transform: scaleX/scaleY, or mark data arriving with data-motion="reveal")' : ''}` });
       if (a.properties.includes('transform')) {
         const t = transformExtent(a.transforms);
         if (t.translate > 8) v.push({ rule: 'translate', detail: `${tag} moves ${Math.round(t.translate)}px (calm allows ≤8px)` });
-        if (t.scaleMin < 0.95 || t.scaleMax > 1.08) v.push({ rule: 'scale', detail: `${tag} scales ${t.scaleMin.toFixed(2)}–${t.scaleMax.toFixed(2)} (calm allows 0.95–1.08)` });
+        const draw = isOneAxisReveal(a.transforms);
+        if (!draw && (t.scaleMin < 0.95 || t.scaleMax > 1.08)) v.push({ rule: 'scale', detail: `${tag} scales ${t.scaleMin.toFixed(2)}–${t.scaleMax.toFixed(2)} (calm allows 0.95–1.08, or a one-axis 0→1 reveal)` });
       }
       if (a.durationMs > (limit ?? 240)) v.push({ rule: 'duration', detail: `${tag} exceeds ${limit ?? 240}ms` });
     }

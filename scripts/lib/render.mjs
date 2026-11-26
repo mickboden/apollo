@@ -26,10 +26,30 @@ const PROBE = String.raw`(() => {
     if (el.scrollWidth > el.clientWidth + 1 && cs.textOverflow !== 'ellipsis' && !['auto','scroll'].includes(cs.overflowX)) out.push({ rule: 'text-overflow', selector: sel(el), detail: 'text needs ' + el.scrollWidth + 'px, box is ' + el.clientWidth + 'px' });
   }
   const rectOf = (el) => { const range = document.createRange(); const rs = []; for (const n of el.childNodes) if (n.nodeType === 3 && n.textContent.trim()) { range.selectNodeContents(n); rs.push(...range.getClientRects()); } return rs; };
-  const items = texts.slice(0, 400).map((el) => ({ el, rects: rectOf(el) }));
+  // Fixed and sticky bars: content passing under them is normal as long as it can be scrolled clear
+  // (the page has matching padding). Text that stays under a bar at every scroll position is a finding.
+  const vh = window.innerHeight, y0 = window.scrollY;
+  const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
+  const pinnedOf = (el) => { for (let x = el; x && x !== document.body; x = x.parentElement) { const p = getComputedStyle(x).position; if (p === 'fixed' || p === 'sticky') return x; } return null; };
+  const bars = [...document.body.querySelectorAll('*')].filter((el) => { const p = getComputedStyle(el).position; if (p !== 'fixed' && p !== 'sticky') return false; if (!visible(el) || getComputedStyle(el).pointerEvents === 'none') return false; const r = el.getBoundingClientRect(); return r.height <= vh * 0.5 && !(el.parentElement && pinnedOf(el.parentElement)); });
+  const revealable = (r, bar) => {
+    const top = r.top + y0, h = r.bottom - r.top;
+    const fits = (lo, hi) => hi - lo >= h - 4 && Math.max(0, top + h - hi - 4) <= Math.min(maxScroll, top - lo + 4);
+    return fits(0, bar.top) || fits(bar.bottom, vh);
+  };
+  const items = texts.slice(0, 400).map((el) => ({ el, rects: rectOf(el), pin: pinnedOf(el) }));
+  for (const bar of bars) {
+    const br = bar.getBoundingClientRect();
+    for (const it of items) {
+      if (it.pin || bar.contains(it.el)) continue;
+      const under = it.rects.filter((r) => Math.min(r.right, br.right) - Math.max(r.left, br.left) > 4);
+      if (under.some((r) => !revealable(r, br))) out.push({ rule: 'overlap', selector: sel(it.el) + ' × ' + sel(bar), detail: 'text stays under the ' + getComputedStyle(bar).position + ' bar at every scroll position; pad the content by the bar height' });
+    }
+  }
   for (let i = 0; i < items.length; i++) for (let j = i + 1; j < items.length; j++) {
     const a = items[i], b = items[j];
     if (a.el.contains(b.el) || b.el.contains(a.el)) continue;
+    if (!a.pin !== !b.pin) continue; // flow text vs a pinned bar: judged by the scroll check above
     const hit = a.rects.some((ra) => b.rects.some((rb) => Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left) > 4 && Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top) > 4));
     if (hit) out.push({ rule: 'overlap', selector: sel(a.el) + ' × ' + sel(b.el), detail: 'text boxes overlap' });
   }

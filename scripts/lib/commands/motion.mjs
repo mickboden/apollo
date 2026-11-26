@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import { writeFileSync } from 'node:fs';
 import { measureMotion } from '../motion.mjs';
 import { TargetError, ChromeError } from '../cdp.mjs';
 import { loadContext } from '../profiles.mjs';
@@ -10,7 +11,10 @@ export async function run(argv) {
   const trigger = flags.click ? { type: 'click', selector: flags.click } : flags.hover ? { type: 'hover', selector: flags.hover } : flags.eval ? { type: 'eval', expr: flags.eval } : { type: 'load' };
   const dial = flags.dial || loadContext({ projectDir: flags.project || process.cwd() }).dials.motion;
   try {
-    const r = await measureMotion(positionals[0], { trigger, dial, durationMs: Number(flags.ms || 2000), reducedMotion: !!flags.reduced, outDir: flags.out || join('.apollo/motion', new Date().toISOString().replace(/[:.]/g, '-')) });
+    const outDir = flags.out || join('.apollo/motion', new Date().toISOString().replace(/[:.]/g, '-'));
+    const r = await measureMotion(positionals[0], { trigger, dial, durationMs: Number(flags.ms || 2000), reducedMotion: !!flags.reduced, outDir });
+    // Saved next to the flipbook so critic-motion reuses this measurement instead of measuring again.
+    writeFileSync(join(outDir, 'motion.json'), JSON.stringify({ target: positionals[0], trigger, reduced: !!flags.reduced, at: new Date().toISOString(), dial, ...r }, null, 2));
     if (flags.json) console.log(JSON.stringify({ dial, ...r }, null, 2));
     else {
       console.log(`motion @${dial}: ${r.animations.length} animations, ${r.frames.dropped} dropped frames, p95 ${r.frames.p95ms}ms`);

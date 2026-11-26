@@ -83,3 +83,20 @@ test('a load-time opening is captured from the very start', { skip, timeout: 600
     assert.ok(frames.length >= 3, `only ${frames.length} frames`);
   } finally { srv.close(); }
 });
+
+test('a 200ms one-axis underline reveal (scaleX 0→1) passes at calm; a uniform zoom does not', { skip, timeout: 60000 }, async () => {
+  const r = await m('underline-reveal.html', 'calm');
+  assert.deepEqual(r.violations, [], JSON.stringify(r.animations));
+  const z = await m('zoom-in.html', 'calm');
+  assert.ok(rules(z).includes('scale'), JSON.stringify(z.violations));
+});
+
+test('cli motion saves motion.json next to the flipbook for critics to reuse', { skip, timeout: 60000 }, () => {
+  const o = out();
+  const r = spawnSync(process.execPath, [join(here, '../scripts/cli.mjs'), 'motion', join(FX, 'calm-fade.html'), '--click', '#go', '--ms', '600', '--dial', 'calm', '--out', o], { encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  const j = JSON.parse(readFileSync(join(o, 'motion.json'), 'utf8'));
+  assert.equal(j.dial, 'calm');
+  assert.equal(j.trigger.selector, '#go');
+  assert.ok(existsSync(j.flipbook));
+});

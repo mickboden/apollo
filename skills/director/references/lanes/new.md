@@ -52,7 +52,7 @@ Brief **screens** (and **motion**) with the contract, the picked concept, the co
 
 ## 7. Gates
 
-All gates ([gates.md](../gates.md)): self-review against the top reference, lint, render, motion for every animation that matters (and `--reduced`), then **critic-slop**, **critic-motion**, **critic-break** and **critic-contract** in parallel. Failures go back to the specialist; at most 3 loops.
+All gates ([gates.md](../gates.md)): self-review against the top reference, lint, render, motion for every animation that matters (and `--reduced`), then **critic-slop**, **critic-motion**, **critic-break** and **critic-contract** in parallel, on the **final build only** (concept mockups get lint and render, nothing more). Give the critics this round's render and motion folders. Failures go back to the specialist; at most 2 fix loops. In lean mode, one combined critic instead of the panel.
 
 ## 8. Hand over
 

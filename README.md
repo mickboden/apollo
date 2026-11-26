@@ -8,7 +8,7 @@ Ask for anything visual: a new page, a calmer button, an opening animation, "why
 you:    make the dashboard less generic
 Apollo: Lane: Refine. Say if you meant something else.
         … 3 options on the rating board, each changing one thing …
-        … build, then lint · render · motion · 4 independent critics …
+        … build, then lint · render · motion · an independent critic …
         Gates: lint passed · render passed (phone, desktop, dark, 200% zoom) · motion passed · contract 9/9
 ```
 
@@ -41,7 +41,8 @@ Apollo: Lane: Refine. Say if you meant something else.
 | **Dials** | Creativity 1–5, colour, motion, density, type, imagery, output. Pre-set from your profile. |
 | **Rating board** | A local page to ♥ / ✕ and score references and concepts 1–5. Your ratings flow back into your profile. |
 | **Specialists** | `screens` (web, app and native UI, built on a modified fork of Impeccable) and `motion`. |
-| **Critics** | Fresh agents that never saw the build: `critic-slop`, `critic-motion`, `critic-break`, `critic-contract`. |
+| **Critics** | Fresh agents that never saw the build: `critic-slop`, `critic-motion`, `critic-break`, `critic-contract`. How many run depends on the lane: none for a tweak, one combined critic for a refine or fix, the full panel for a new build's final version and for reviews. They read the gates' saved results instead of measuring again. |
+| **Resumable runs** | Each phase is checkpointed in `.design/progress.json`; an interrupted session picks up where it stopped. |
 | **Measured gates** | A slop linter, a real-Chrome render matrix, and real-browser motion measurement with flipbooks. |
 
 Decks, Figma work, isometric figures and imagery currently route through upstream skills (see [Upstream skills](#upstream-skills)). Dedicated specialists for them are planned.
@@ -154,7 +155,7 @@ Talk normally. Some examples, and the lane each one lands in:
 | "what's wrong with this page?" | **Review:** a ranked report from four critics, no edits |
 | "rebuild the macOS Settings sidebar 1:1" | **Replicate:** measured values, real assets, then one twist |
 
-Add **"lean"** or **"quick"** for a cheaper run: 2 concepts instead of 3 plus a wild card, no parallel agents, and one combined critic.
+Add **"lean"** or **"quick"** for a cheaper run: 2 concepts instead of 3 plus a wild card, no parallel agents, and one combined critic even for new builds and reviews. Say **"thorough"** for the full critic panel in any lane.
 
 Apollo never pushes, deploys or publishes without an explicit go.
 

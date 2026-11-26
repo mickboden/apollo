@@ -30,6 +30,14 @@ Screenshot paths (phone, desktop, light, dark), before-screenshots when it was a
 
 Judge the twist and the fidelity on a replica, not the source product's own choices (the brief will say if it's a replica).
 
+## Combined pass
+
+Most lanes run one combined critic instead of four (the Director's gates.md, "Combined critic"). When your brief says **combined**:
+1. Also read `critic-motion.md`, `critic-break.md` and `critic-contract.md` in this folder (`${CLAUDE_PLUGIN_ROOT}/agents/`) and apply their methods after your own, with the same fresh eyes.
+2. Use the gate folders from the brief (render screenshots and `render.json`, motion flipbooks and `motion.json`); don't re-render or re-measure what they already cover. Build and render the worst-case variant yourself (critic-break step 3); nothing else does.
+3. Return **one** ranked list, each finding tagged `slop`, `motion`, `break`, `contract` or `brief-fit`, then the brief-fit lines, the contract tick list and the break value table.
+4. The bar is the same as four separate critics. "Clean" only when every part is clean.
+
 ## Return
 
 A ranked list, worst first. For each finding:

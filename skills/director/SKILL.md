@@ -13,6 +13,7 @@ Outside the plugin (the skill copied by hand, or `${CLAUDE_PLUGIN_ROOT}` still s
 
 ## 1. Start every session
 
+0. **Resume check.** Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs progress show --project <project root>`. If it shows an unfinished run for this same request, say "Resuming: <lane>, <phase>, next: <next>" and continue from **Next**. Don't redo finished phases or re-ask settled questions; re-run a gate only if the files changed since it was recorded. A different request: start fresh (`progress start` replaces the old run).
 1. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs context --project <project root>`. It merges base taste, the personal profile, any brand profiles and the project layer, and prints the dials, the never-list, the top reference, the lessons and any notices. Keep this output; every agent you brief gets it.
 2. If it reports **no personal profile**, offer to create one in at most three questions ([references/profiles.md](references/profiles.md), "First run"). The person can skip; base taste then applies alone.
 3. If the project has no `.design/` folder and the work is more than a tweak, run `cli.mjs project init` (with `--brand <name>` when a brand profile applies).
@@ -32,7 +33,7 @@ Read the request and pick exactly one lane. Say it in one line: **"Lane: Refine.
 | **Review** | "What's wrong with this?", critique or audit; report only | [references/lanes/review.md](references/lanes/review.md) |
 | **Replicate** | Rebuild a real product or OS UI 1:1 | [references/lanes/replicate.md](references/lanes/replicate.md) |
 
-Then load that lane file and follow it.
+Then load that lane file and follow it, and start the checkpoint file (§3a).
 
 Rules for picking:
 - **Ambiguous target?** Restate it in one line ("I'll change the greeting's size, nothing else.") before acting. Misreading the request is one of the most common failures; one line prevents it.
@@ -40,15 +41,26 @@ Rules for picking:
 - **A request naming slides, Figma, an isometric figure or images** still goes through a lane (usually New or Refine). The specialist work routes per [references/upstream.md](references/upstream.md), "Phase-2 routes".
 - **Situation beats ceremony.** A Refine on a project whose contract and dials are settled skips straight to options. A New on an established product with a full profile asks only what the profile can't answer.
 
-## 3. Lean mode
+## 3. Rigor and lean mode
+
+How much checking a lane gets is fixed in [references/gates.md](references/gates.md), **Rigor by lane**. In short: Tweak and Explore get no critics; Fix, Refine and Replicate get **one combined critic**; New gets the full panel on the final build only; Review gets the full panel. Fix loops are capped at 1 or 2 per lane. "Thorough" or "full review" buys the full panel in any build lane.
 
 Switch to lean mode when the person says lean, quick, cheap, "native", "don't spend too much", or gives a tight time budget:
 - 2 concepts instead of 3 plus a wild card.
 - No parallel agents; specialists' work done in this thread.
-- The four critics run as one combined pass.
+- New and Review also drop to one combined critic.
 - Everything else (lint, render, motion, contract) still runs; those checks are cheap.
 
 Say it in the lane line: "Lane: New, lean."
+
+## 3a. Checkpoints
+
+Sessions get cut off. Keep the run in `.design/progress.json` so the next session picks it up instead of starting over:
+- After the lane line: `cli.mjs progress start --lane <lane> --request "<request in one line>" --project <root>` (add `--budget <minutes>` when you gave an estimate).
+- After **every** phase, gate run, critic pass and fix loop: `cli.mjs progress add --phase <phase> --project <root>` with what happened: `--pick "<what the person chose>"`, `--gate render=passed` (or `"motion=failed: 2 violations"`, `"render=not run: no Chrome"`), `--finding "<open finding>"`, `--resolved "<finding>"` or `--resolved all`, `--loop <n>` on fix loop n, and always a concrete `--next "<the next action>"`.
+- At hand-over: `cli.mjs progress done --project <root>`.
+
+One line per call; it takes seconds. A `--next` like "brief screens with picks B+C" is useful; "continue" is not.
 
 ## 4. Time budget
 
@@ -69,12 +81,13 @@ Every brief contains:
 4. The contract path (`.design/contract.md`) and, for builds, the agreed picks.
 4b. For critics: the **quality words** from the request ("vibey", "catchy", "less generic", "premium", "calmer"…) for the brief-fit check, and before-screenshots on a refine.
 5. The gates the agent must run before returning ([references/gates.md](references/gates.md)).
+5b. For critics: the gate artifact folders from this round (render folder with `render.json`, each motion folder with `motion.json` and the flipbook), so they judge instead of re-measuring.
 6. What to return: paths, screenshots, flipbooks, change list, and any gate that exited 2.
 
 Isolation rules:
 - **Critics never see the build conversation.** They get screenshots, file paths, URLs, the dials, the never-list and the contract. Nothing about how it was made or what you hope.
 - **Specialists never see critic briefs.** They get the findings to fix, not the critics' instructions.
-- Run independent agents in parallel (the four critics; screens and motion when their work doesn't overlap).
+- Run independent agents in parallel (the full critic panel when the lane calls for it; screens and motion when their work doesn't overlap).
 
 When no agent tool is available, do the specialist work in this thread, run every CLI gate yourself, and run the critic briefs as a separate pass after stepping back from the build. Say so in the hand-over.
 
@@ -104,7 +117,7 @@ Nothing is handed over before the gates for the lane have run. The hand-over mes
 2. **Anything missing from the contract, and any brief-fit miss,** first and plainly ("You asked for vibey; the critic says it isn't yet, because…", plus the bolder move you'd make). Never bury it.
 3. **Screenshots:** phone and desktop, light and dark (paths from the render gate). Open or link them.
 4. **Motion:** the flipbook path for each animation that matters.
-5. **Gates:** one line each: passed, failed (with what remains), or **not run** (with why).
+5. **Gates:** one line each: passed, failed (with what remains), or **not run** (with why). Name every override with its reason ("render: passed, 1 override: overlap is mid-scroll under a padded fixed bar").
 6. **What changed:** a short list.
 7. **Next:** "It runs locally at <url>. Say go and I'll commit/push."
 
@@ -117,6 +130,7 @@ Push, deploy or publish only on an explicit go.
 - Ask engineering questions. Ask about taste; decide the rest yourself and state it in one line.
 - Copy one reference closely, or paste a liked treatment onto every page.
 - Hand over a gate that exited 2 as passed.
+- Override a finding without a written reason recorded with `cli.mjs progress override` and stated in the hand-over (gates.md, "Overrides").
 - Hand over a result that failed brief-fit as if it were done.
 - Hand over a surface without its one bold move (base-taste.md §0). Clean and forgettable is a failure.
 - Put profile content, brand values or private names into anything public. Run `cli.mjs privacy <folder>` before publishing.
@@ -130,7 +144,7 @@ Push, deploy or publish only on an explicit go.
 - [references/copy.md](references/copy.md): words
 - [references/dials.md](references/dials.md): the seven dials
 - [references/contract.md](references/contract.md): the agreed-items list
-- [references/gates.md](references/gates.md): checks, exit codes, the 3-loop cap
+- [references/gates.md](references/gates.md): checks, exit codes, rigor by lane, loop caps, overrides
 - [references/profiles.md](references/profiles.md): layers, files, learning, privacy
 - [references/board.md](references/board.md): decks and ratings
 - [references/upstream.md](references/upstream.md): which installed skills specialists use, and phase-2 routes

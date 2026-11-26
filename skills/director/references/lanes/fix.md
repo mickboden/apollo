@@ -17,7 +17,8 @@ Something is broken: an animation stutters, text overflows, elements overlap, a 
    - Theme bugs: hard-coded colours → tokens defined for both themes.
 4. **Measure again** with the same command. The "after" must be clean at the same widths, themes and triggers.
 5. **Check neighbours:** run render on the whole page (the fix must not break something else).
-6. **Hand over:** the cause in one sentence, the change, and before/after evidence.
+6. **One combined critic** (gates.md, "Combined critic"), focused on break and contract, given the before and after evidence and the render folder. At most 2 fix loops.
+7. **Hand over:** the cause in one sentence, the change, and before/after evidence.
 
 ## Don't
 

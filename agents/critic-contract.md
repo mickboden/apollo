@@ -13,12 +13,12 @@ Your one job: make sure **everything that was agreed is actually there**, with t
 
 ## Inputs you should have
 
-The path to `.design/contract.md`, the URL or files of the build, the source paths, and the screenshots if the specialist made them. Not the build conversation.
+The path to `.design/contract.md`, the URL or files of the build, the source paths, and this round's gate folders (render screenshots plus `render.json`, motion folders with `motion.json`). Not the build conversation.
 
 ## Method
 
 1. **Read** `.design/contract.md` and `${CLAUDE_PLUGIN_ROOT}/skills/director/references/contract.md`.
-2. **Render** the build yourself:
+2. **Use the render folder** from your brief. Render the build yourself only if there is none or the files changed after the `at` time in its `render.json`:
    ```bash
    node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs render <url or file> --out .apollo/contract --json
    ```
@@ -26,7 +26,7 @@ The path to `.design/contract.md`, the URL or files of the build, the source pat
 3. **For every unchecked line in the current round**, find evidence:
    - **Colours:** the exact value in the source tokens or CSS, and visible in light **and** dark screenshots. Agreed colours must not change between themes unless the line says so.
    - **Type:** sizes, weights and tracking in the source; visible hierarchy in the screenshots.
-   - **Motion:** the animation exists with the agreed property, duration and easing. Measure it: `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs motion <url> --click <selector> --json`.
+   - **Motion:** the animation exists with the agreed property, duration and easing. Read it from the matching `motion.json` when there is one; otherwise measure it: `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs motion <url> --click <selector> --json`.
    - **Elements:** present, in the agreed number and order, on phone and desktop.
    - **Copy:** the exact agreed words.
    - **Picks:** the chosen concept's defining traits are recognisable, including mixed picks ("C, with the week line from A").

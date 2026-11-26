@@ -17,7 +17,7 @@ Make an existing screen better while keeping its identity. The person should rec
 6. **Learn.** Save what won and why (`cli.mjs learn`), and say it in one line.
 7. **Contract.** Add the picked changes as contract lines, with values and the round as source.
 8. **Build.** Brief **screens** to apply the pick to the real code (output dial: usually `prototype`, or `production` if the project is code). Include the contract and the gate list.
-9. **Gates.** All of them ([gates.md](../gates.md)): lint, render, motion if anything animates, then the four critics in parallel. Loop at most 3 times.
+9. **Gates.** All of them ([gates.md](../gates.md)): lint, render, motion if anything animates, then **one combined critic** (gates.md, "Combined critic") with the before-screenshots, the quality words and this round's gate folders. At most 2 fix loops. The full panel only if the person asked for thorough.
 10. **Hand over** (SKILL.md §8).
 
 ## Shortcuts

@@ -35,6 +35,9 @@ The contract is the list of everything agreed. It is written before the build, k
 
 ### Out of scope
 - Search (agreed to leave for later on 2026-11-20)
+
+### Overrides
+- render · `.cta × .nav overlap at 390` · the nav is fixed and the page pads 88px for it; the capture is mid-scroll (Director, round 2026-11-20)
 ```
 
 ## Rules
@@ -44,4 +47,5 @@ The contract is the list of everything agreed. It is written before the build, k
 3. **Changes update the contract.** When the person changes their mind, edit the line and note the new source.
 4. **Hand-over ticks every line** with evidence: a screenshot, a flipbook, a file and line. A missing line is reported first in the hand-over, in plain words.
 5. **Agreed colours hold in every theme** unless the contract says otherwise.
-6. **Earlier versions can come back.** When a liked version is replaced, keep it reachable (a file, a branch, a toggle) until the person lets it go.
+6. **Overrides are written down.** Each gate finding the Director overrides gets one line under **Overrides**: the gate, the finding as reported, the reason, who and when. The same line goes into `cli.mjs progress override` and the hand-over. An override never covers something the person asked for (gates.md, "Overrides").
+7. **Earlier versions can come back.** When a liked version is replaced, keep it reachable (a file, a branch, a toggle) until the person lets it go.

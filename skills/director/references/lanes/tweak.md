@@ -13,6 +13,7 @@ A named change in one place. Fast, exact, nothing else touched.
    - Visual change: `cli.mjs render <url or file>` (look at the screenshot of the touched area at phone and desktop).
    - Motion change: `cli.mjs motion <url> --click <selector>`.
    - Contract: confirm the touched line still holds.
+   - No critics, and one fix loop at most (gates.md, "Rigor by lane").
 6. **Hand over** in three lines: what changed (old → new value), the screenshot or flipbook, the gates.
 
 ## Don't

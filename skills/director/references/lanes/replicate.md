@@ -13,7 +13,7 @@ Rebuild a real product or operating-system UI 1:1, then add one honest twist. Ey
 3. **Build** (brief **screens**): reproduce the measured values exactly. Font weights matter (450 is not 400). Icon boxes matter (14px vs 17px is visible). Don't redesign components the product already does well.
 4. **Compare side by side.** Render the build at the same size (`cli.mjs render --widths <width> --themes light --zoom ""`) and put it next to the original screenshot. List every visible difference; fix until none are left that a careful person would notice.
 5. **Hover and interaction.** Every element the original reacts to must react the same way (hover, press, open, previews). A replica with no hover states reads as fake.
-6. **Gates:** lint, render, motion, critic-break, critic-contract. critic-slop runs with the note that the target is a replica (it judges the twist and the fidelity, not the source product's choices).
+6. **Gates:** lint, render, motion, then **one combined critic** (gates.md, "Combined critic") with the replica note: the target is a replica, so it judges the fidelity and the twist, not the source product's choices. At most 2 fix loops.
 7. **The twist.** Only after fidelity holds: propose one honest twist that shows the person's hand (one detail, one interaction). Get a yes before building it.
 8. **Hand over** with the side-by-side and the measurements table.
 

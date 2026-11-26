@@ -11,7 +11,7 @@
    - **critic-motion**: smoothness and purpose of motion.
    - **critic-break**: worst-case data, themes, zoom, accessibility.
    - **critic-contract**: only when a contract exists.
-   In lean mode, run one combined critic pass, but still run it.
+   Give them the render and motion folders from step 2 so they don't measure again. In lean mode, run one combined critic pass (gates.md, "Combined critic"), but still run it.
 4. **UX scoring.** Brief the **screens** agent to run its critique playbook (`screens critique`) for the heuristic scores (each heuristic 0–4, total out of 40, or the applicable maximum).
 5. **Your own read** (after the critics, so you're not anchored first): compare against the top reference. Would it hold up? Where is the biggest gap?
 6. **Report.** Use this structure every time, in this order:

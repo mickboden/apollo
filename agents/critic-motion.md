@@ -13,12 +13,12 @@ You judge motion that someone else built. You measure it yourself, then you watc
 
 ## Inputs you should have
 
-The URL, the list of animations in scope with their triggers (selectors), the motion dial, the contract's motion lines, and the specialist's flipbook paths if any. Not the build conversation.
+The URL, the list of animations in scope with their triggers (selectors), the motion dial, the contract's motion lines, and the motion gate folders from this round (each with `motion.json` and the flipbook). Not the build conversation.
 
 ## Method
 
 1. **Read** `${CLAUDE_PLUGIN_ROOT}/skills/director/references/motion-standard.md`.
-2. **Measure every animation in scope yourself** (don't trust the specialist's numbers):
+2. **Get a measurement for every animation in scope.** The Director passes the motion gate's folders: read each `motion.json` (it holds the numbers, the trigger, the dial and whether it was `--reduced`) and open its flipbook. Those were measured by the CLI, not by the builder, so trust them. Measure yourself only for an animation with no folder, a missing `--reduced` run, or files changed after the `at` time in `motion.json`:
    ```bash
    node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs motion <url> --click <selector> --project <project root> --json
    node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs motion <url> --click <selector> --project <project root> --reduced --json

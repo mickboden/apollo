@@ -7,7 +7,7 @@ Smooth is the one non-negotiable. Everything else depends on the motion dial. Mo
 | Dial | Where | Allowed |
 |---|---|---|
 | `still` | Dense tools, print-like pages | Opacity and colour only, ≤160ms, for feedback |
-| `calm` (default) | Working product UI | Opacity, colours, box-shadow, transform for press and tiny nudges. Translate ≤8px, scale 0.95–1.08. ≤240ms. No overshoot, no stagger, no blur |
+| `calm` (default) | Working product UI | Opacity, colours, box-shadow, transform for press and tiny nudges. Translate ≤8px, scale 0.95–1.08. ≤240ms. No overshoot, no stagger, no blur. One exception: a one-axis reveal (an underline or bar drawing in with `scaleX` or `scaleY` from 0 to 1, the other axis staying at 1), ≤240ms. Width/height only on an element marked `data-motion="reveal"` |
 | `expressive` | Marketing pages, onboarding, empty states | Adds clip-path, larger translate, ≤600ms. Still no overshoot |
 | `showcase` | Portfolios, case studies, openings, launches | Anything, as long as it is smooth and has a purpose |
 

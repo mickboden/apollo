@@ -13,7 +13,7 @@ Your job is to break the UI before a real person does. Visible bugs make good de
 
 ## Inputs you should have
 
-The URL or files, the source paths, the dials, and the contract. Not the build conversation.
+The URL or files, the source paths, the dials, the contract, and this round's render folder (screenshots plus `render.json`). Not the build conversation.
 
 ## Method
 
@@ -23,10 +23,10 @@ The URL or files, the source paths, the dials, and the contract. Not the build c
    - Static HTML: copy the page to `.apollo/break/worst/` and replace values there.
    - A framework app: copy its fixture or mock data file to `.apollo/break/` and, if the app can load data from a query parameter, environment variable or local fixture, point it there; otherwise inject values in the browser with a script (`--eval` is not available on render, so use a copied HTML snapshot of the rendered DOM: save `document.documentElement.outerHTML` via the browser tools into `.apollo/break/worst/index.html` with its styles, and edit that).
    - Worst cases, applied together and one at a time when something breaks: the longest realistic name (40+ characters, hyphenated), an unbreakable email or URL, a one-letter name, missing optional fields (no avatar, no subtitle), zero items, one item, 999+ items, huge numbers (1234567.89, negative, 0), very long labels on buttons and tabs, non-Latin text (German compound words, Arabic RTL, Japanese), emoji in names, dates at the edges.
-4. **Render both:**
+4. **Render both.** The normal data is already rendered: use the render folder from your brief (`render.json` has the findings and the shot list) and render it yourself only if there is no folder or the files changed after its `at` time. Always render the worst case:
    ```bash
-   node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs render <url or file> --out .apollo/break/normal --json
    node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs render .apollo/break/worst/index.html --out .apollo/break/worst-shots --json
+   node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs render <url or file> --out .apollo/break/normal --json   # only without a usable render folder
    ```
    Every finding (h-scroll, text-overflow, overlap, small-target) is a finding. Then **open the screenshots**: clipped text with an ellipsis where the full text matters, broken alignment, empty states that look like errors, dark-mode white fills, images stretched or missing.
 5. **Accessibility:** text contrast (body ≥4.5:1, large ≥3:1) in both themes; visible focus on every interactive element (tab through in the browser); every control has an accessible name; touch targets ≥24px (44px preferred on touch screens); zoom to 200% without loss.

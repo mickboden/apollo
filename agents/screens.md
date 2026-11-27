@@ -50,6 +50,7 @@ If something that would change the result is missing, return a question instead 
 - Output per the output dial: `prototype` (clickable, local) by default; `production` in the project's stack when the dial says so.
 - Keep earlier liked versions reachable (a file, a toggle) until the person lets them go.
 - Change only what the brief covers.
+- **Tests, only if the project already has them:** if `superpowers:test-driven-development` is installed, write the failing test first for behaviour (forms, validation, state); the contract plays that role for visuals. Never add a test setup to a project that has none.
 
 ### Build checklist
 
@@ -69,7 +70,7 @@ These are the findings critics raise most often, and every one is cheaper to pre
 2. **Lint:** `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs lint <changed files or concept folders> --project <project root>`. Fix every `fail`; justify any `warn` you keep.
 3. **Render:** `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs render <url or index.html> --out .apollo/render/<round>`. Open the screenshots (phone, desktop, dark, 200% zoom). Fix overflow, overlap, horizontal scroll and small targets.
 4. **Motion** (if you added or changed any animation and no motion specialist is on the job): `node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs motion <url> --click <selector>`.
-5. Loop at most twice yourself; leave the rest to the critics.
+5. Loop at most twice yourself; leave the rest to the critics. Before each fix, find why the gate failed (`superpowers:systematic-debugging`, if installed) so the same finding doesn't come back.
 
 A gate that exits 2 is "not run": say so with the reason. Never report it as passed.
 

@@ -37,7 +37,8 @@ One fresh `critic-slop` agent briefed to apply all four critic files in one pass
 
 ## The loop
 
-- Failures go back to the specialist who built the work, with the exact findings.
+- Failures go back to the specialist who built the work, with the exact findings. Verify each finding first (`superpowers:receiving-code-review`, if installed): a wrong one gets an override with its reason, not a fix.
+- Each fix starts from the cause, not the symptom (`superpowers:systematic-debugging`, if installed, outside Tweak), so the same finding doesn't come back next loop. Neither skill raises the cap.
 - After a fix, re-run only the gates that failed, plus render (fixes often break layout). Re-run only the critic checks that failed, on the new artifacts.
 - **Fix loops are capped per lane** (table below; never more than 2). When the cap is reached, stop and hand over with the remaining findings listed plainly at the top. Do not keep polishing silently.
 - Record each gate result and each loop with `cli.mjs progress add` (SKILL.md, "Checkpoints").

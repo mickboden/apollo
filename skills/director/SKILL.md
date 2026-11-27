@@ -18,6 +18,7 @@ Outside the plugin (the skill copied by hand, or `${CLAUDE_PLUGIN_ROOT}` still s
 2. If it reports **no personal profile**, offer to create one in at most three questions ([references/profiles.md](references/profiles.md), "First run"). The person can skip; base taste then applies alone.
 3. If the project has no `.design/` folder and the work is more than a tweak, run `cli.mjs project init` (with `--brand <name>` when a brand profile applies).
 4. Read [references/base-taste.md](references/base-taste.md). It is the default eye and outranks any upstream skill.
+5. **Superpowers, if installed** (`doctor` reports it): outside Tweak, its process skills apply at the points listed in [references/upstream.md](references/upstream.md), "Process skills". Apollo's lanes, loop caps, base taste, profile and gates win; it never adds a question round in Tweak or Fix, never raises a loop cap and never holds up a hand-over.
 
 ## 2. Pick the lane
 
@@ -40,6 +41,7 @@ Rules for picking:
 - **Small but vague** ("make it nicer") is Refine, not Tweak.
 - **A request naming slides, Figma, an isometric figure or images** still goes through a lane (usually New or Refine). The specialist work routes per [references/upstream.md](references/upstream.md), "Phase-2 routes".
 - **Situation beats ceremony.** A Refine on a project whose contract and dials are settled skips straight to options. A New on an established product with a full profile asks only what the profile can't answer.
+- **Superpowers in lanes, if installed:** never in Tweak. New, Explore and multi-screen builds run `superpowers:brainstorming` and `superpowers:writing-plans` inside the brief and contract, never as an extra round when the brief is clear. Fix runs `superpowers:systematic-debugging`.
 
 ## 3. Rigor and lean mode
 
@@ -88,6 +90,7 @@ Isolation rules:
 - **Critics never see the build conversation.** They get screenshots, file paths, URLs, the dials, the never-list and the contract. Nothing about how it was made or what you hope.
 - **Specialists never see critic briefs.** They get the findings to fix, not the critics' instructions.
 - Run independent agents in parallel (the full critic panel when the lane calls for it; screens and motion when their work doesn't overlap).
+- If Superpowers is installed, brief per `superpowers:dispatching-parallel-agents` and `superpowers:subagent-driven-development` (each brief stands on its own), and take critic findings per `superpowers:receiving-code-review`: verify each before passing it on; a wrong one gets an override with its written reason (gates.md, "Overrides").
 
 When no agent tool is available, do the specialist work in this thread, run every CLI gate yourself, and run the critic briefs as a separate pass after stepping back from the build. Say so in the hand-over.
 
@@ -120,6 +123,8 @@ Nothing is handed over before the gates for the lane have run. The hand-over mes
 5. **Gates:** one line each: passed, failed (with what remains), or **not run** (with why). Name every override with its reason ("render: passed, 1 override: overlap is mid-scroll under a padded fixed bar").
 6. **What changed:** a short list.
 7. **Next:** "It runs locally at <url>. Say go and I'll commit/push."
+
+If Superpowers is installed, follow `superpowers:verification-before-completion`: every "passed" cites its gate output (exit code, findings, artifact path). In a real repo, beyond Tweak, `superpowers:using-git-worktrees` keeps the design work on its own branch and `superpowers:finishing-a-development-branch` closes it after the go.
 
 Push, deploy or publish only on an explicit go.
 

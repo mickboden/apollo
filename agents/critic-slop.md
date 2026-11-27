@@ -47,4 +47,4 @@ A ranked list, worst first. For each finding:
 - **why:** one plain sentence
 - **fix:** the concrete change
 
-Then a **brief-fit** line per quality word (met / not met, one sentence each). Then: "Clean" only if nothing material remains *and* every brief word is met. No praise padding; one line on what must be kept is enough. If the lint command exited 2, say "lint not run" with the reason.
+Then a **brief-fit** line per quality word (met / not met, one sentence each). Then: "Clean" only if nothing material remains *and* every brief word is met. No praise padding; one line on what must be kept is enough. If the lint command exited 2, say "lint not run" with the reason. If `superpowers:verification-before-completion` is installed, apply it to your own verdict: every finding and every "Clean" names the artifact it rests on.

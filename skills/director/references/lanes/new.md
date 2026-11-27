@@ -15,6 +15,8 @@ Ask only what the profile and the project can't answer, and only what would chan
 
 Write the answers into `.design/project.md` (body), with the surface mode (Persuade, Operate, Read, Experience).
 
+If Superpowers is installed, `superpowers:brainstorming` shapes this step (its questions fold into the one message above; a clear brief gets none) and, for multi-screen builds, `superpowers:writing-plans` turns the contract into a short build plan before §6.
+
 ## 2. Dials
 
 Show the seven dials pre-set from the context output as a `dials` deck on the board ([dials.md](../dials.md), [board.md](../board.md)). Each option card is a tiny rendered version of the screen: real swatches, real type, a frame of the motion level. Only ask the dials where the profile has no strong default for this kind of surface. The person changes what differs or says go. Save changed dials to the project layer.

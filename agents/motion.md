@@ -50,7 +50,7 @@ node ${CLAUDE_PLUGIN_ROOT}/scripts/cli.mjs motion <url> --click <selector> --pro
 
 (`--hover <selector>` for hover effects, `--eval "<js>"` for programmatic triggers, no trigger for load animations; `--ms` to cover long sequences.)
 
-- Fix every violation and re-measure, until there are none at the project's dial.
+- Fix every violation and re-measure, until there are none at the project's dial. Find the cause before changing values (`superpowers:systematic-debugging`, if installed): one hypothesis, one change, measure again.
 - Open each flipbook and watch it at real speed and at 0.25×. Does it feel calm, connected, purposeful? Does anything jump, flash or arrive late? Fix and re-measure.
 - Exit code 2 means "not run" (no Chrome, bad URL, missing selector): report it, never as passed.
 

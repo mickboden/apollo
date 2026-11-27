@@ -42,7 +42,7 @@ Each case is composed from axes in `creative/axes.mjs`: artifact type (17 kinds,
 
 - Prompts give **facts only**: brand, audience, main action, content, personality, constraint. Concept, direction, references and dials are left to the designer. No pre-filled picks such as "creativity dial 4" or "the wild card, toned down one step"; round 1 showed those pull both arms toward safe output.
 - Both arms get the same prompt text. Output rules match the round: one self-contained `./out/index.html` under 250 KB, Google Fonts only, images only as inline SVG, CSS or data: URIs, responsive from 390 to 1440px.
-- The same seed always gives the same cases. `creative/history.json` records used brands and artifact + domain pairs; later seeds avoid them and spread across the least-used artifact types. Re-running a seed ignores its own entries, so it reproduces. Use `--no-history` to ignore the file.
+- The same seed always gives the same cases. `creative/history.json` records used brands and artifact + domain pairs; later seeds avoid them and spread across the least-used artifact types. Re-running a seed counts only the entries recorded before it (its own and later seeds' entries are ignored), so every committed batch reproduces even after later rounds. Use `--no-history` to ignore the file.
 - Each case is `prompt.md` (with front matter) plus `case.json` (seed, lane, axes, motion plan, summary). `creative/examples/seed-1/` is a sample batch.
 
 Run them with `run-blind.mjs --cases-dir <dir>`; everything after that is the same as the regression track.

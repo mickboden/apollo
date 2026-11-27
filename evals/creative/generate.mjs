@@ -6,7 +6,8 @@
 // Without --out it only prints the one-line summaries. With --out it writes <dir>/<case>/prompt.md,
 // case.json and, for Refine and Fix, fixtures/site/index.html, then records the batch in the history
 // file (default evals/creative/history.json) so later seeds avoid the same brands and combinations.
-// Entries from the same seed are ignored when generating, so re-running a seed gives the same batch.
+// Only entries recorded before the seed's own count when generating, so re-running any seed, even after later
+// seeds were added, gives the same batch.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -24,11 +25,21 @@ export function loadHistory(path) {
   return { version: 1, entries: Array.isArray(h.entries) ? h.entries : [] };
 }
 
+// A re-recorded seed keeps its place in the history, so later seeds still come after it.
 export function recordHistory(history, cases) {
   const seeds = new Set(cases.map((c) => c.seed));
-  const kept = history.entries.filter((e) => !seeds.has(e.seed));
+  const first = history.entries.findIndex((e) => seeds.has(e.seed));
+  const at = first === -1 ? history.entries.length : first;
+  const before = history.entries.slice(0, at).filter((e) => !seeds.has(e.seed));
+  const after = history.entries.slice(at).filter((e) => !seeds.has(e.seed));
   const added = cases.map((c) => ({ seed: c.seed, id: c.id, lane: c.lane, artifact: c.axes.artifact, domain: c.axes.domain, tone: c.axes.tone, constraint: c.axes.constraint, brand: c.axes.brand.name }));
-  return { version: 1, entries: [...kept, ...added] };
+  return { version: 1, entries: [...before, ...added, ...after] };
+}
+
+// The entries a seed is generated against: those recorded before its own first entry (all of them for a new seed).
+export function historyBefore(history, seed) {
+  const first = history.entries.findIndex((e) => e.seed === seed);
+  return (first === -1 ? history.entries : history.entries.slice(0, first)).filter((e) => e.seed !== seed);
 }
 
 export function brandName(rand) {
@@ -49,7 +60,7 @@ function laneSlots(rand, count) {
 export function generateCases({ seed, count = 5, history = { entries: [] } } = {}) {
   if (!Number.isInteger(seed)) throw new Error('seed must be an integer');
   const rand = rng(seed);
-  const past = history.entries.filter((e) => e.seed !== seed);
+  const past = historyBefore(history, seed);
   const used = { artifact: new Map(), domain: new Map(), tone: new Map() };
   for (const e of past) for (const k of Object.keys(used)) used[k].set(e[k], (used[k].get(e[k]) || 0) + 1);
   const usedPairs = new Set(past.map((e) => `${e.artifact}|${e.domain}`));

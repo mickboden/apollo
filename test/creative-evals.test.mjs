@@ -96,11 +96,21 @@ test('motion artifacts carry a recording plan; the fixed cases keep theirs', () 
   assert.ok(caseInfo('review-page', null).report);
 });
 
-test('the committed seed-1 example matches the generator', () => {
-  const dir = join(here, '../evals/creative/examples/seed-1');
-  const now = generateCases({ seed: 1, count: 5, history: loadHistory(join(here, '../evals/creative/history.json')) });
-  assert.deepEqual(caseDirs(dir), now.map((c) => c.id));
-  for (const c of now) assert.equal(readFileSync(join(dir, c.id, 'prompt.md'), 'utf8'), promptText(c));
+for (const [seed, rel] of [[1, 'examples/seed-1'], [2, 'rounds/round-2']]) {
+  test(`the committed seed-${seed} batch matches the generator, even after later seeds were recorded`, () => {
+    const dir = join(here, '../evals/creative', rel);
+    const now = generateCases({ seed, count: 5, history: loadHistory(join(here, '../evals/creative/history.json')) });
+    assert.deepEqual(caseDirs(dir), now.map((c) => c.id));
+    for (const c of now) assert.equal(readFileSync(join(dir, c.id, 'prompt.md'), 'utf8'), promptText(c));
+  });
+}
+
+test('re-recording an early seed keeps its place, so later seeds are unchanged', () => {
+  let history = { version: 1, entries: [] };
+  for (const s of [1, 2, 3]) history = recordHistory(history, generateCases({ seed: s, history }));
+  const again = recordHistory(history, generateCases({ seed: 1, history }));
+  assert.deepEqual(again, history);
+  assert.deepEqual(generateCases({ seed: 3, history: again }), generateCases({ seed: 3, history }));
 });
 
 test('eval-deck --cases-dir puts case summaries on the cards', async () => {

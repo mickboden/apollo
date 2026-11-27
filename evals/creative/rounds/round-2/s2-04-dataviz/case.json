@@ -1,0 +1,22 @@
+{
+  "id": "s2-04-dataviz",
+  "seed": 2,
+  "index": 4,
+  "track": "creative",
+  "lane": "new",
+  "axes": {
+    "artifact": "dataviz",
+    "domain": "allotments",
+    "brand": {
+      "name": "Breadan Studio",
+      "premise": "Breadan Studio manages a site of allotment garden plots."
+    },
+    "quirk": "It is family-run, now in its third generation.",
+    "audience": "current plot holders",
+    "tone": "quietly luxurious",
+    "constraint": null
+  },
+  "output": "out/index.html",
+  "fixture": null,
+  "summary": "[New] data visualisation · Breadan Studio (allotment association) · for current plot holders · quietly luxurious"
+}

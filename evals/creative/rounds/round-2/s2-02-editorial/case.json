@@ -1,0 +1,22 @@
+{
+  "id": "s2-02-editorial",
+  "seed": 2,
+  "index": 2,
+  "track": "creative",
+  "lane": "new",
+  "axes": {
+    "artifact": "editorial",
+    "domain": "organ-transport",
+    "brand": {
+      "name": "Breum & Co",
+      "premise": "Breum & Co transports donor organs and blood between hospitals."
+    },
+    "quirk": "It is the oldest business of its kind in the region.",
+    "audience": "hospital logistics leads",
+    "tone": "warm and plain-spoken",
+    "constraint": null
+  },
+  "output": "out/index.html",
+  "fixture": null,
+  "summary": "[New] long-form article · Breum & Co (medical courier) · for hospital logistics leads · warm and plain-spoken"
+}

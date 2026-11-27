@@ -50,6 +50,56 @@
       "tone": "grand and civic",
       "constraint": null,
       "brand": "Touar"
+    },
+    {
+      "seed": 2,
+      "id": "s2-01-portfolio",
+      "lane": "new",
+      "artifact": "portfolio",
+      "domain": "glacier-station",
+      "tone": "clinical and trustworthy",
+      "constraint": null,
+      "brand": "Dearar Works"
+    },
+    {
+      "seed": 2,
+      "id": "s2-02-editorial",
+      "lane": "new",
+      "artifact": "editorial",
+      "domain": "organ-transport",
+      "tone": "warm and plain-spoken",
+      "constraint": null,
+      "brand": "Breum & Co"
+    },
+    {
+      "seed": 2,
+      "id": "s2-03-landing",
+      "lane": "fix",
+      "artifact": "landing",
+      "domain": "courier-coop",
+      "tone": "playful and childlike",
+      "constraint": null,
+      "brand": "Bruum Field"
+    },
+    {
+      "seed": 2,
+      "id": "s2-04-dataviz",
+      "lane": "new",
+      "artifact": "dataviz",
+      "domain": "allotments",
+      "tone": "quietly luxurious",
+      "constraint": null,
+      "brand": "Breadan Studio"
+    },
+    {
+      "seed": 2,
+      "id": "s2-05-email",
+      "lane": "new",
+      "artifact": "email",
+      "domain": "soil-lab",
+      "tone": "theatrical",
+      "constraint": null,
+      "brand": "Beame Studio"
     }
   ]
 }

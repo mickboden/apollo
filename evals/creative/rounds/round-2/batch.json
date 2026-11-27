@@ -1,0 +1,26 @@
+{
+  "seed": 2,
+  "count": 5,
+  "cases": [
+    {
+      "id": "s2-01-portfolio",
+      "summary": "[New] portfolio · Dearar Works (glacier research station) · for other researchers · clinical and trustworthy"
+    },
+    {
+      "id": "s2-02-editorial",
+      "summary": "[New] long-form article · Breum & Co (medical courier) · for hospital logistics leads · warm and plain-spoken"
+    },
+    {
+      "id": "s2-03-landing",
+      "summary": "[Fix] landing page · Bruum Field (bike courier cooperative) · for law firms sending documents · playful and childlike · defect: stutter"
+    },
+    {
+      "id": "s2-04-dataviz",
+      "summary": "[New] data visualisation · Breadan Studio (allotment association) · for current plot holders · quietly luxurious"
+    },
+    {
+      "id": "s2-05-email",
+      "summary": "[New] email · Beame Studio (soil carbon testing) · for regenerative farmers · theatrical"
+    }
+  ]
+}

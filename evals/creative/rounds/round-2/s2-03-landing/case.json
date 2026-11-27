@@ -1,0 +1,31 @@
+{
+  "id": "s2-03-landing",
+  "seed": 2,
+  "index": 3,
+  "track": "creative",
+  "lane": "fix",
+  "axes": {
+    "artifact": "landing",
+    "domain": "courier-coop",
+    "brand": {
+      "name": "Bruum Field",
+      "premise": "Bruum Field is a cooperative of cargo-bike couriers delivering across the city."
+    },
+    "quirk": "It is family-run, now in its third generation.",
+    "audience": "law firms sending documents",
+    "tone": "playful and childlike",
+    "constraint": null,
+    "defect": "stutter"
+  },
+  "motion": {
+    "file": "out/index.html",
+    "trigger": {
+      "type": "click",
+      "selector": "#open"
+    },
+    "durationMs": 1600
+  },
+  "output": "out/index.html",
+  "fixture": "fixtures/site/index.html",
+  "summary": "[Fix] landing page · Bruum Field (bike courier cooperative) · for law firms sending documents · playful and childlike · defect: stutter"
+}

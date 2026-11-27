@@ -1,0 +1,22 @@
+{
+  "id": "s2-01-portfolio",
+  "seed": 2,
+  "index": 1,
+  "track": "creative",
+  "lane": "new",
+  "axes": {
+    "artifact": "portfolio",
+    "domain": "glacier-station",
+    "brand": {
+      "name": "Dearar Works",
+      "premise": "Dearar Works is a research station measuring a retreating glacier."
+    },
+    "quirk": "It was founded last year by two former nurses.",
+    "audience": "other researchers",
+    "tone": "clinical and trustworthy",
+    "constraint": null
+  },
+  "output": "out/index.html",
+  "fixture": null,
+  "summary": "[New] portfolio · Dearar Works (glacier research station) · for other researchers · clinical and trustworthy"
+}

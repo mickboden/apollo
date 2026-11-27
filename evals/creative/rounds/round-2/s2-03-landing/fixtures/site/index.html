@@ -1,0 +1,48 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bruum Field · landing page</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #F4F4F5; color: #1A1C21; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: #fff; border-bottom: 1px solid #E4E4E7; }
+  header nav a { margin-left: 16px; color: inherit; text-decoration: none; }
+  main { max-width: 1120px; margin: 0 auto; padding: 32px 20px; }
+  h1 { font-size: 32px; margin: 0 0 12px; }
+  .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; margin-bottom: 32px; }
+  .hero .media { background: #E4E4E7; border-radius: 12px; aspect-ratio: 4 / 3; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .card { background: #fff; border-radius: 12px; padding: 20px; border: 1px solid #E4E4E7; }
+  .card h2 { font-size: 16px; margin: 0 0 6px; }
+  .card p { margin: 0; color: rgba(26,28,33,.6); font-size: 14px; }
+  .btn { display: inline-block; min-height: 40px; line-height: 40px; padding: 0 18px; border-radius: 999px; border: 0; background: #2F5BEA; color: #fff; font: inherit; text-decoration: none; cursor: pointer; }
+  footer { padding: 32px 24px; color: rgba(26,28,33,.6); font-size: 13px; text-align: center; }
+  @media (max-width: 720px) { .hero { grid-template-columns: 1fr; } }
+  .panel { position: fixed; top: 0; bottom: 0; width: 380px; left: 100%; background: #fff; padding: 24px; box-shadow: 0 0 40px rgba(0,0,0,.15); transition: left 700ms ease, width 700ms ease; }
+  .open .panel { left: calc(100% - 428px); }
+</style></head>
+<body>
+  <header><strong>Bruum Field</strong><nav><a href="#">Home</a><a href="#">About</a><a href="#">Contact</a></nav></header>
+  <main>
+    <section class="hero">
+      <div class="copy"><h1>Welcome to Bruum Field</h1><p>Bruum Field is a cooperative of cargo-bike couriers delivering across the city.</p><p><a class="btn" href="#">Book a same-hour delivery</a> <button id="open" class="btn" type="button">Open details</button></p></div>
+      <div class="media"></div>
+    </section>
+    
+    <div class="grid">
+      <div class="card"><h2>Zones and prices</h2><p>Details about zones and prices go here.</p></div>
+      <div class="card"><h2>Live rider count</h2><p>Details about live rider count go here.</p></div>
+      <div class="card"><h2>The carbon saved</h2><p>Details about the carbon saved go here.</p></div>
+      <div class="card"><h2>About us</h2><p>Short text about about us.</p></div>
+      <div class="card"><h2>Contact</h2><p>Short text about contact.</p></div>
+      <div class="card"><h2>Questions</h2><p>Short text about questions.</p></div>
+    </div>
+    <ul id="rows"></ul>
+  </main>
+  <aside class="panel"><h2>Details</h2><p>More about zones and prices.</p></aside>
+  <footer>© Bruum Field</footer>
+<script>
+  const list = document.getElementById('rows');
+  for (let i = 0; i < 300; i++) { const li = document.createElement('li'); li.textContent = 'Entry ' + (1000 + i); list.append(li); }
+  document.getElementById('open').addEventListener('click', () => {
+    document.body.classList.add('open');
+    let n = 0;
+    const t = setInterval(() => { for (const li of list.children) li.style.width = li.offsetWidth + 'px'; if (++n > 14) clearInterval(t); }, 40);
+  });
+</script></body></html>

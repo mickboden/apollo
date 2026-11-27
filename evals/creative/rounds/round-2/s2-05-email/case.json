@@ -1,0 +1,22 @@
+{
+  "id": "s2-05-email",
+  "seed": 2,
+  "index": 5,
+  "track": "creative",
+  "lane": "new",
+  "axes": {
+    "artifact": "email",
+    "domain": "soil-lab",
+    "brand": {
+      "name": "Beame Studio",
+      "premise": "Beame Studio tests soil carbon for farmers selling carbon credits."
+    },
+    "quirk": "Its founder is a retired engineer.",
+    "audience": "regenerative farmers",
+    "tone": "theatrical",
+    "constraint": null
+  },
+  "output": "out/index.html",
+  "fixture": null,
+  "summary": "[New] email · Beame Studio (soil carbon testing) · for regenerative farmers · theatrical"
+}

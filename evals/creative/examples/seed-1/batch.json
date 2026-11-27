@@ -1,0 +1,26 @@
+{
+  "seed": 1,
+  "count": 5,
+  "cases": [
+    {
+      "id": "s1-01-pricing",
+      "summary": "[New] pricing page · Morel (prosthetics workshop) · for new amputees and their families · loud and confident · constraint: no gradients and no shadows"
+    },
+    {
+      "id": "s1-02-intro-animation",
+      "summary": "[New] opening animation · Luro Collective (crop survey drones) · for agronomists · nerdy and meticulous · constraint: type only"
+    },
+    {
+      "id": "s1-03-settings",
+      "summary": "[New] settings screen · Fleano (rare-book auctions) · for university librarians · eccentric"
+    },
+    {
+      "id": "s1-04-event-poster",
+      "summary": "[New] event poster page · Tresi (violin bow rehairing) · for parents of music students · rebellious · constraint: monospace type only"
+    },
+    {
+      "id": "s1-05-product-page",
+      "summary": "[Fix] product page · Touar (public observatory) · for amateur astronomers · grand and civic · defect: overlap"
+    }
+  ]
+}

@@ -54,7 +54,7 @@ test('routed and long work has a time budget', () => {
 test('eval collector records motion cases as flipbooks', () => {
   const p = join(here, '../evals/collect.mjs');
   assert.ok(existsSync(p));
-  const t = readFileSync(p, 'utf8');
+  const t = readFileSync(p, 'utf8') + readFileSync(join(here, '../evals/lib/cases.mjs'), 'utf8');
   assert.match(t, /fix-stutter/);
   assert.match(t, /opening-animation/);
   assert.match(t, /measureMotion/);

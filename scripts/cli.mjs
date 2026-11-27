@@ -19,7 +19,7 @@ export const COMMANDS = {
   board: 'Rating board: board serve <deck.json> | board results <deck.json>',
   migrate: 'Move overlapping design skills aside (reversible): migrate [--dry-run] [--undo]',
   locate: 'Find an upstream skill folder: locate <skill>',
-  'eval-deck': 'Build or score a blind A/B deck: eval-deck <dirA> <dirB> --out <dir> | --score <dir>',
+  'eval-deck': 'Build or score a blind A/B deck: eval-deck <dirA> <dirB> --out <dir> [--cases-dir <dir>] | --score <dir>',
 };
 
 function usage() {

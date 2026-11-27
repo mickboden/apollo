@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "seed": 1,
+      "id": "s1-01-pricing",
+      "lane": "new",
+      "artifact": "pricing",
+      "domain": "prosthetics",
+      "tone": "loud and confident",
+      "constraint": "no gradients and no shadows",
+      "brand": "Morel"
+    },
+    {
+      "seed": 1,
+      "id": "s1-02-intro-animation",
+      "lane": "new",
+      "artifact": "intro-animation",
+      "domain": "crop-drones",
+      "tone": "nerdy and meticulous",
+      "constraint": "type only: no pictures or illustrations, typography carries everything",
+      "brand": "Luro Collective"
+    },
+    {
+      "seed": 1,
+      "id": "s1-03-settings",
+      "lane": "new",
+      "artifact": "settings",
+      "domain": "rare-books",
+      "tone": "eccentric",
+      "constraint": null,
+      "brand": "Fleano"
+    },
+    {
+      "seed": 1,
+      "id": "s1-04-event-poster",
+      "lane": "new",
+      "artifact": "event-poster",
+      "domain": "bow-rehair",
+      "tone": "rebellious",
+      "constraint": "monospace type only",
+      "brand": "Tresi"
+    },
+    {
+      "seed": 1,
+      "id": "s1-05-product-page",
+      "lane": "fix",
+      "artifact": "product-page",
+      "domain": "observatory",
+      "tone": "grand and civic",
+      "constraint": null,
+      "brand": "Touar"
+    }
+  ]
+}

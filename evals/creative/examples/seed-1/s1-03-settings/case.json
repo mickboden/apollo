@@ -1,0 +1,22 @@
+{
+  "id": "s1-03-settings",
+  "seed": 1,
+  "index": 3,
+  "track": "creative",
+  "lane": "new",
+  "axes": {
+    "artifact": "settings",
+    "domain": "rare-books",
+    "brand": {
+      "name": "Fleano",
+      "premise": "Fleano auctions rare books and manuscripts."
+    },
+    "quirk": "It was founded last year by two former nurses.",
+    "audience": "university librarians",
+    "tone": "eccentric",
+    "constraint": null
+  },
+  "output": "out/index.html",
+  "fixture": null,
+  "summary": "[New] settings screen · Fleano (rare-book auctions) · for university librarians · eccentric"
+}

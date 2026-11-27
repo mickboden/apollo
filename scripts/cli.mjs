@@ -6,7 +6,7 @@ import { dirname, join } from 'node:path';
 import { nodeProblem } from './lib/node-version.mjs';
 
 export const COMMANDS = {
-  doctor: 'Check Node, Chrome, profiles and plugin root, with a fix for each problem: doctor [--json] [--skip-chrome]',
+  doctor: 'Check Node, Chrome, profiles and plugin root, with a fix for each problem (and report optional Superpowers): doctor [--json] [--skip-chrome]',
   progress: 'Checkpoint a run so it can resume: progress start | add | override | show | done | clear',
   context: 'Print the merged design context (base → personal → brands → project)',
   profile: 'Create a profile: profile init personal | profile init brand <name>',
@@ -18,7 +18,7 @@ export const COMMANDS = {
   privacy: 'Scan a folder for private data before publishing: privacy [dir]',
   board: 'Rating board: board serve <deck.json> | board results <deck.json>',
   migrate: 'Move overlapping design skills aside (reversible): migrate [--dry-run] [--undo]',
-  locate: 'Find an upstream skill folder: locate <skill>',
+  locate: 'Find an upstream skill folder: locate <skill> (or <plugin>:<skill>)',
   'eval-deck': 'Build or score a blind A/B deck: eval-deck <dirA> <dirB> --out <dir> | --score <dir>',
 };
 

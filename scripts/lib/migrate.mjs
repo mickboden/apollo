@@ -51,10 +51,14 @@ export function migrate({ home = homedir(), undo = false, dryRun = false } = {})
   return { moved, skipped };
 }
 
+// `name` may carry a plugin namespace as Claude Code shows it (`superpowers:systematic-debugging`).
+// Loose skill folders match on the bare name; inside the plugin cache the path must contain the plugin's folder.
 export function locateSkill(name, { home = homedir() } = {}) {
   const P = paths(home);
+  const [ns, bare] = name.includes(':') ? name.split(':', 2) : [null, name];
+  if (!bare) return null;
   for (const dir of [P.specialists, join(home, '.agents/skills'), P.skills]) {
-    const p = join(dir, name);
+    const p = join(dir, bare);
     if (existsSync(join(p, 'SKILL.md'))) return p;
   }
   const cache = join(home, '.claude/plugins/cache');
@@ -67,7 +71,7 @@ export function locateSkill(name, { home = homedir() } = {}) {
     for (const e of entries) {
       if (!e.isDirectory() || e.name === 'node_modules' || e.name.startsWith('.')) continue;
       const p = join(dir, e.name);
-      if (e.name === name && dir.endsWith('/skills') && existsSync(join(p, 'SKILL.md'))) return p;
+      if (e.name === bare && dir.endsWith('/skills') && (!ns || dir.split(/[\\/]/).includes(ns)) && existsSync(join(p, 'SKILL.md'))) return p;
       stack.push([p, depth + 1]);
     }
   }

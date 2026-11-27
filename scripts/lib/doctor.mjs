@@ -1,10 +1,12 @@
 // Environment check: can this machine run every Apollo gate? Each check says what is wrong and how to fix it.
 import { existsSync, accessSync, constants } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
+import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { findChrome, launch } from './cdp.mjs';
 import { profilesRoot } from './profiles.mjs';
 import { nodeProblem } from './node-version.mjs';
+import { locateSkill } from './migrate.mjs';
 
 export { nodeProblem };
 
@@ -12,7 +14,23 @@ export const PLUGIN_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../
 
 const check = (name, status, detail, fix = '', blocking = status === 'fail') => ({ name, status, detail, fix, blocking });
 
-export async function runChecks({ env = process.env, version = process.version, pluginRoot = PLUGIN_ROOT, chrome = true, findChromeFn = findChrome, launchFn = launch } = {}) {
+// The Superpowers process skills Apollo reads when installed (skills/director/references/upstream.md, "Process skills").
+export const SUPERPOWERS_SKILLS = ['systematic-debugging', 'verification-before-completion', 'receiving-code-review', 'dispatching-parallel-agents',
+  'subagent-driven-development', 'brainstorming', 'writing-plans', 'test-driven-development', 'using-git-worktrees', 'finishing-a-development-branch'];
+
+// Optional upstream: always status "info", never blocking, never a failure.
+export function superpowersCheck({ home = homedir(), locateFn = locateSkill } = {}) {
+  try {
+    const found = SUPERPOWERS_SKILLS.filter((s) => locateFn(`superpowers:${s}`, { home }));
+    if (!found.length) return check('superpowers', 'info', 'not installed (optional; Apollo\'s own steps cover fix loops, verification and briefing)', '', false);
+    const where = dirname(locateFn(`superpowers:${found[0]}`, { home }));
+    return check('superpowers', 'info', `installed: ${found.length} of ${SUPERPOWERS_SKILLS.length} process skills Apollo uses (${where})`, '', false);
+  } catch (e) {
+    return check('superpowers', 'info', `could not check (${String(e.message || e)}); optional`, '', false);
+  }
+}
+
+export async function runChecks({ env = process.env, version = process.version, pluginRoot = PLUGIN_ROOT, chrome = true, findChromeFn = findChrome, launchFn = launch, home = env.HOME || homedir(), locateFn = locateSkill } = {}) {
   const out = [];
   const np = nodeProblem(version);
   out.push(np ? check('node', 'fail', `Node ${version}`, np) : check('node', 'ok', `Node ${version}`));
@@ -53,11 +71,13 @@ export async function runChecks({ env = process.env, version = process.version, 
   else if (!env.CLAUDE_PLUGIN_ROOT) out.push(check('plugin-root', 'ok', `${pluginRoot} (CLAUDE_PLUGIN_ROOT not set: outside Claude Code, run scripts as node ${join(pluginRoot, 'scripts/cli.mjs')})`));
   else if (resolve(env.CLAUDE_PLUGIN_ROOT) !== pluginRoot) out.push(check('plugin-root', 'warn', `CLAUDE_PLUGIN_ROOT=${env.CLAUDE_PLUGIN_ROOT} but this CLI lives in ${pluginRoot}`, 'Two copies are installed; remove the stale one or run the CLI under CLAUDE_PLUGIN_ROOT.', false));
   else out.push(check('plugin-root', 'ok', pluginRoot));
+
+  out.push(superpowersCheck({ home, locateFn }));
   return out;
 }
 
 export function formatChecks(checks) {
-  const mark = { ok: 'ok  ', warn: 'warn', fail: 'FAIL' };
+  const mark = { ok: 'ok  ', warn: 'warn', fail: 'FAIL', info: 'info' };
   const lines = checks.map((c) => `${mark[c.status]}  ${c.name.padEnd(13)} ${c.detail}${c.fix ? `\n      fix: ${c.fix}` : ''}`);
   const blocking = checks.filter((c) => c.blocking).length;
   lines.push('', blocking ? `doctor: ${blocking} blocking problem${blocking > 1 ? 's' : ''}` : 'doctor: ready');
